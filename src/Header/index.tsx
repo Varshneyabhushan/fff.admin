@@ -18,9 +18,11 @@ export default function Header() {
 
 
   const [resource, setResource] = useState<Resource<number>>(status)
-
   function refreshStatus() {
-    setResource(toResource(queueService.getTotalItems()))
+    setTimeout(() => {
+      setResource(toResource(queueService.getTotalItems()))
+    },
+    0)
   }
 
   return (
@@ -33,27 +35,26 @@ export default function Header() {
           <ErrorBoundary fallback={"status loading failed"}>
             <QueueStatus resource={resource} />
           </ErrorBoundary>
-          <Button variant='contained' onClick={() => refreshStatus()}> status </Button>
+          <Button variant='contained' onClick={refreshStatus}> status </Button>
         </Toolbar>
       </AppBar>
-
     </Box>
   );
 }
 
 interface QueueStatusProps {
-  resource: Resource<number> | undefined;
+  resource: Resource<number>;
 }
 
 function QueueStatus({ resource }: QueueStatusProps) {
 
   const theme = useTheme()
+  const result = resource.read()
 
   return (
-
     <Suspense fallback={"loading..."}>
       <Typography variant='h6' sx={{ marginRight: theme.spacing(2) }}>
-        {resource?.read() || "not ready"}
+        {result}
       </Typography>
     </Suspense>
   )
