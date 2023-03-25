@@ -10,6 +10,7 @@ import { Suspense, useState } from 'react';
 import Resource from '../utils/resource/Resource';
 import toResource from '../utils/resource/toResource';
 import ErrorBoundary from '../utils/resource/ErrorBoundary';
+import { Outlet } from 'react-router-dom';
 
 const queueService = new QueueService(config.queueAPIUrl)
 const status = toResource(queueService.getTotalItems())
@@ -25,12 +26,15 @@ export default function Header() {
     0)
   }
 
+  const [title, setTitle] = useState("models")
+
   return (
+    <>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Models
+            {title}
           </Typography>
           <ErrorBoundary fallback={"status loading failed"}>
             <QueueStatus resource={resource} />
@@ -39,6 +43,9 @@ export default function Header() {
         </Toolbar>
       </AppBar>
     </Box>
+    <Outlet context={{ setTitle }}/>
+    </>
+    
   );
 }
 

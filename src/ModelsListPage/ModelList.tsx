@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useOutletContext } from "react-router-dom"
 import { ModelsResource } from "."
 import config from "../config"
 import { featuringImage, Model } from "../services/Db/models/model"
@@ -26,8 +26,11 @@ function getThumbnail(featuringImages ?: featuringImage[]) : string {
 }
 
 function ModelContainer({ source }: { source: Model }) {
+
+    const { setTitle } = useOutletContext <{ setTitle : (title : string) => void }>()
+    
     return (
-        <Link className="modelContainer" to={`/models/${source._id}`}>
+        <Link className="modelContainer" to={`/models/${source._id}`} onClick={() => setTitle?.(source.name)}>
             <img alt={source.name} src={getThumbnail(source.featuringImages)} />
             <div className="title">{source.name}</div>
         </Link>

@@ -1,7 +1,7 @@
 
 import "./index.scss"
 
-import { Fragment, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import config from "../config"
 import DbService from "../services/Db"
 import { Model } from "../services/Db/models/model"
@@ -10,6 +10,7 @@ import Resource from "../utils/resource/Resource"
 import toResource from "../utils/resource/toResource"
 import ModelPagination from "./Pagination"
 import ModelList from "./ModelList"
+import { useOutletContext } from "react-router-dom"
 
 
 const dbService = new DbService(config.dbAPIUrl)
@@ -22,6 +23,9 @@ export function ModelListPage() {
 
     const [resource, setResource] = useState<ModelsResource>(initialModelsResource)
 
+    const { setTitle } = useOutletContext <{ setTitle : (title : string) => void }>()
+    useEffect(() => setTitle("models"), [setTitle])
+    
     const totalModels = modelsCountResource.read()
     const totalPages = Math.ceil(totalModels / ModelsPerPage)
 
