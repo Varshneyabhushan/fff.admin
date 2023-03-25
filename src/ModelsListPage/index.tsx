@@ -22,9 +22,6 @@ const ModelsPerPage = 20
 export function ModelListPage() {
 
     const [resource, setResource] = useState<ModelsResource>(initialModelsResource)
-
-    const { setTitle } = useOutletContext <{ setTitle : (title : string) => void }>()
-    useEffect(() => setTitle("models"), [setTitle])
     
     const totalModels = modelsCountResource.read()
     const totalPages = Math.ceil(totalModels / ModelsPerPage)

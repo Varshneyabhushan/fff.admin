@@ -1,4 +1,4 @@
-import { Link, useOutletContext } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { ModelsResource } from "."
 import config from "../config"
 import { featuringImage, Model } from "../services/Db/models/model"
@@ -13,9 +13,9 @@ export default function ModelList({ resource }: ModelListProps) {
             {resource.read().map(model => <ModelContainer key={model._id} source={model} />)}
         </div>
     )
-}  
+}
 
-function getThumbnail(featuringImages ?: featuringImage[]) : string {
+function getThumbnail(featuringImages?: featuringImage[]): string {
     //default 
     if (!featuringImages || featuringImages.length == 0) {
         return "/nofems_400.svg"
@@ -27,10 +27,15 @@ function getThumbnail(featuringImages ?: featuringImage[]) : string {
 
 function ModelContainer({ source }: { source: Model }) {
 
-    const { setTitle } = useOutletContext <{ setTitle : (title : string) => void }>()
-    
+    const nextState = {
+        header: { title: source.name }
+    }
     return (
-        <Link className="modelContainer" to={`/models/${source._id}`} onClick={() => setTitle?.(source.name)}>
+        <Link
+            className="modelContainer"
+            to={`/models/${source._id}`}
+            state={nextState}
+        >
             <img alt={source.name} src={getThumbnail(source.featuringImages)} />
             <div className="title">{source.name}</div>
         </Link>
