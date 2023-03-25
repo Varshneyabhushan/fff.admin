@@ -1,10 +1,11 @@
-interface measurements {
+export interface measurements {
    bust?: number;
    waist?: number;
    hip?: number;
    height?: number;
 }
-interface featuringImage {
+
+export interface featuringImage {
    imageId: string;
    imageUrl: string;
 }
