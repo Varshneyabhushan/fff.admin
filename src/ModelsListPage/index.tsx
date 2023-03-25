@@ -1,7 +1,6 @@
 
-import "./index.scss"
 
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useState } from "react"
 import config from "../config"
 import DbService from "../services/Db"
 import { Model } from "../services/Db/models/model"
@@ -10,7 +9,6 @@ import Resource from "../utils/resource/Resource"
 import toResource from "../utils/resource/toResource"
 import ModelPagination from "./Pagination"
 import ModelList from "./ModelList"
-import { useOutletContext } from "react-router-dom"
 
 
 const dbService = new DbService(config.dbAPIUrl)

@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom"
+
 import { ModelsResource } from "."
 import config from "../config"
+import ModelLink from "../ModelPage/modelLink"
 import { featuringImage, Model } from "../services/Db/models/model"
 
 interface ModelListProps {
@@ -26,18 +27,10 @@ function getThumbnail(featuringImages?: featuringImage[]): string {
 }
 
 function ModelContainer({ source }: { source: Model }) {
-
-    const nextState = {
-        header: { title: source.name }
-    }
     return (
-        <Link
-            className="modelContainer"
-            to={`/models/${source._id}`}
-            state={nextState}
-        >
+        <ModelLink source={source}>
             <img alt={source.name} src={getThumbnail(source.featuringImages)} />
             <div className="title">{source.name}</div>
-        </Link>
+        </ModelLink>
     )
 }
