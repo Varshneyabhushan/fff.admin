@@ -2,6 +2,7 @@
 export default function toResource <k> (promise : Promise<k>) {
     let status = 'pending'
     let response : k;
+    let error : Error;
   
     const suspender = promise.then(
       (res) => {
@@ -10,7 +11,7 @@ export default function toResource <k> (promise : Promise<k>) {
       },
       (err) => {
         status = 'error'
-        response = err
+        error = err
       },
     )
 
@@ -19,7 +20,7 @@ export default function toResource <k> (promise : Promise<k>) {
           case 'pending':
             throw suspender
           case 'error':
-            throw response
+            throw error
           default:
             return response
         }
