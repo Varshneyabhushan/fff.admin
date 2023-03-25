@@ -55,6 +55,22 @@ export default class DbService {
       return models[0];
    }
 
+   async getModels(skip : number, limit : number) : Promise<Model[]> {
+      let { models } = await this.axios(
+         {
+            method : "get",
+            url : `/admin/models?skip=${skip}&limit=${limit}`
+         }
+      )
+
+      if(!models || !(models instanceof Array)) {
+         return Promise.reject({ message : "invalid response type"})
+      }
+
+      console.log(models)
+      return models
+   }
+
    //models
    addModel(model: Model): Promise<string> {
       let { _id, ...restModel } = model;
