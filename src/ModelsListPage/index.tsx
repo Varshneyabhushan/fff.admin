@@ -1,6 +1,6 @@
 
 
-import { Fragment, useState } from "react"
+import { Fragment, Suspense, useState } from "react"
 import config from "../config"
 import DbService from "../services/Db"
 import { Model } from "../services/Db/models/model"
@@ -27,7 +27,7 @@ export function ModelListPage() {
     function pageChange(newPageVal: number) {
         let skip = (newPageVal - 1) * ModelsPerPage
         let newResource = toResource(dbService.getModels(skip, ModelsPerPage))
-        setTimeout(() => setResource(newResource), 0)
+        setResource(newResource)
     }
 
     return (
@@ -36,7 +36,9 @@ export function ModelListPage() {
                 <ModelPagination pageChange={pageChange} totalPages={totalPages} totalModels={totalModels} />
             </ErrorBoundary>
             <ErrorBoundary fallback={"error while loading models"}>
-                <ModelList resource={resource} />
+                <Suspense fallback={"loading modelList"}>
+                    <ModelList resource={resource} />
+                </Suspense>
             </ErrorBoundary>
         </Fragment>
     )

@@ -65,6 +65,16 @@ export default class DbService {
       .then(data => data.count)
    }
 
+   async getModelById(id : string) : Promise<Model> {
+      return this.axios(
+         {
+            method : "get",
+            url : "/admin/models/" + id
+         }
+      )
+      .then(data => data.model)
+   }
+
    async getModels(skip : number, limit : number) : Promise<Model[]> {
       let { models } = await this.axios(
          {

@@ -1,11 +1,19 @@
-import { useParams } from "react-router-dom"
+
+import useModelState from "./state"
 
 export default function ModelPage() {
 
-    const { id : modelId } = useParams()
-    return (
-        <div>
-            you have entered a model's page : { modelId }
+    const modelResource = useModelState()
+    if(!modelResource) {
+        return <></>
+    }
+
+    const model = modelResource.read()
+
+    return (  
+         <div>
+            {`modelId : ${ model._id }`}
+            {`modelName : ${model.name}`}
         </div>
     )
 }
