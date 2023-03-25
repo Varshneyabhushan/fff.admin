@@ -19,3 +19,25 @@
         margin: auto;
     }
 }
+
+.modelInfo {
+
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+
+    .preview {
+        img {
+            width: 300px;
+            height : 400px; 
+        }
+    }
+
+    .details {
+        width: 50%;
+
+        ul {
+            list-style: none;
+        }
+    }
+}

@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Site } from "./models/site";
 import { Model } from "./models/model";
 import Album from "./models/album";
+import Image from "./models/image";
 
 export type AlbumByLinkResult = {
    _id: string;
@@ -146,5 +147,15 @@ export default class DbService {
          url: `/admin/images?modelId=${modelId}&siteId=${siteId}`,
          data: { imageUrls },
       }).then((data) => data.value);
+   }
+
+   getImages(modelId : string, skip : number, limit : number) : Promise<Image[]> {
+      return this.axios(
+         {
+            method : "get",
+            url : `/admin/images?modelId=${modelId}`
+         }
+      )
+      .then(data => data.images)
    }
 }
