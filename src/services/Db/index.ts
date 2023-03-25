@@ -55,6 +55,16 @@ export default class DbService {
       return models[0];
    }
 
+   async getModelsCount() : Promise<number> {
+      return this.axios(
+         {
+            method : "get",
+            url : "/admin/models/count"
+         }
+      )
+      .then(data => data.count)
+   }
+
    async getModels(skip : number, limit : number) : Promise<Model[]> {
       let { models } = await this.axios(
          {
@@ -67,7 +77,6 @@ export default class DbService {
          return Promise.reject({ message : "invalid response type"})
       }
 
-      console.log(models)
       return models
    }
 

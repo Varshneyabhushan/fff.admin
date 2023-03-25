@@ -6,8 +6,8 @@ import { ModelListPage } from './ModelsListPage';
 function App() {
   return (
     <div>
-      <Header/>
-      <ModelListPage/>
+      <Header />
+      <ModelListPage />
     </div>
   );
 }
