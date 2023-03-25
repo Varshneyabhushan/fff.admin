@@ -6,9 +6,11 @@ let {
    REACT_APP_DATABASE_URL: dbAPIUrl = "http://fff.mongo-server",
 } = process.env;
 
-export default {
+const config = {
    scrapperAPIUrl,
    queueAPIUrl,
    imageHostAPIUrl,
    dbAPIUrl,
 };
+
+export default config
