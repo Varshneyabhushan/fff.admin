@@ -12,7 +12,7 @@ export interface featuringImage {
 
 export interface siteAlias {
    siteId: string;
-   siteName: string;
+   siteName?: string;
    featuringImage?: featuringImage;
    alias: string;
    sources: string[];

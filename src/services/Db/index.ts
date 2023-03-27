@@ -56,36 +56,36 @@ export default class DbService {
       return models[0];
    }
 
-   async getModelsCount() : Promise<number> {
+   async getModelsCount(): Promise<number> {
       return this.axios(
          {
-            method : "get",
-            url : "/admin/models/count"
+            method: "get",
+            url: "/admin/models/count"
          }
       )
-      .then(data => data.count)
+         .then(data => data.count)
    }
 
-   async getModelById(id : string) : Promise<Model> {
+   async getModelById(id: string): Promise<Model> {
       return this.axios(
          {
-            method : "get",
-            url : "/admin/models/" + id
+            method: "get",
+            url: "/admin/models/" + id
          }
       )
-      .then(data => data.model)
+         .then(data => data.model)
    }
 
-   async getModels(skip : number, limit : number) : Promise<Model[]> {
+   async getModels(skip: number, limit: number): Promise<Model[]> {
       let { models } = await this.axios(
          {
-            method : "get",
-            url : `/admin/models?skip=${skip}&limit=${limit}`
+            method: "get",
+            url: `/admin/models?skip=${skip}&limit=${limit}`
          }
       )
 
-      if(!models || !(models instanceof Array)) {
-         return Promise.reject({ message : "invalid response type"})
+      if (!models || !(models instanceof Array)) {
+         return Promise.reject({ message: "invalid response type" })
       }
 
       return models
@@ -106,10 +106,18 @@ export default class DbService {
          return Promise.reject("invalid id sent");
       }
 
+      const updatingModel = { ...model }
+      delete updatingModel._id
+      if (updatingModel.siteAlias) {
+         for (let i = 0; i < updatingModel.siteAlias?.length ?? 0; i++) {
+            delete updatingModel.siteAlias?.[i].siteName
+         }
+      }
+
       return this.axios({
          method: "patch",
          url: "/admin/models/" + model._id,
-         data: { siteAlias: model.siteAlias },
+         data: updatingModel,
       });
    }
 
@@ -149,13 +157,13 @@ export default class DbService {
       }).then((data) => data.value);
    }
 
-   getImages(modelId : string, skip : number, limit : number) : Promise<Image[]> {
+   getImages(modelId: string, skip: number, limit: number): Promise<Image[]> {
       return this.axios(
          {
-            method : "get",
-            url : `/admin/images?modelId=${modelId}`
+            method: "get",
+            url: `/admin/images?modelId=${modelId}`
          }
       )
-      .then(data => data.images)
+         .then(data => data.images)
    }
 }

@@ -1,8 +1,8 @@
 
 import styled from "@emotion/styled"
 import { Button, TextField } from "@mui/material"
-import { ChangeEvent, ChangeEventHandler, useEffect, useReducer } from "react"
-import { useLocation, useParams } from "react-router-dom"
+import { ChangeEvent, useEffect, useReducer } from "react"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import config from "../config"
 import DbService from "../services/Db"
 import { measurements, Model } from "../services/Db/models/model"
@@ -24,6 +24,7 @@ export default function ModelPage() {
     const location = useLocation()
     const { id } = useParams()
     const [state, dispatch] = useReducer(modelReducer, defaultState)
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (location.state?.model) {
@@ -34,9 +35,6 @@ export default function ModelPage() {
         dbService.getModelById(id ?? "")
             .then(model =>
                 dispatch({ type: modelReducerStates.Setup, payload: model }))
-            .catch(err => {
-                throw err
-            })
     },
         [location.state, id])
 
@@ -53,11 +51,15 @@ export default function ModelPage() {
 
         try {
             await dbService.updateModel(state.model)
+            location.state.model = state.model
+            location.state.header = { title : state.model.name }
+            navigate(".", { state : location.state })
             //better alert
             alert("saved the changes")
         }
-        catch(e : any) {
+        catch (e: any) {
             console.log("error when updating : ", e)
+            
             // throw new Error("error while saving model : " + e.message)
         }
     }
@@ -118,13 +120,13 @@ export default function ModelPage() {
                     <StyledTextField
                         variant="standard"
                         label={"bio"}
-                        value={state.model.bio}
+                        value={state.model.bio ?? ""}
                         onChange={fieldSetter("bio")}
                         disabled={!state.isEditing} fullWidth /> <br />
                     <StyledTextField
                         variant="standard"
                         label={"bust"}
-                        value={state.model.measurements?.bust}
+                        value={state.model.measurements?.bust ?? ""}
                         onChange={measurementsSetter("bust")}
                         disabled={!state.isEditing}
                         sx={{ width: 70 }}
@@ -132,7 +134,7 @@ export default function ModelPage() {
                     <StyledTextField
                         variant="standard"
                         label={"waist"}
-                        value={state.model.measurements?.waist}
+                        value={state.model.measurements?.waist ?? ""}
                         onChange={measurementsSetter("waist")}
                         disabled={!state.isEditing}
                         sx={{ width: 70 }}
@@ -140,7 +142,7 @@ export default function ModelPage() {
                     <StyledTextField
                         variant="standard"
                         label={"hip"}
-                        value={state.model.measurements?.hip}
+                        value={state.model.measurements?.hip ?? ""}
                         onChange={measurementsSetter("hip")}
                         disabled={!state.isEditing}
                         sx={{ width: 70 }}
@@ -149,7 +151,7 @@ export default function ModelPage() {
                     <StyledTextField
                         variant="standard"
                         label={"date of birth"}
-                        value={state.model.dob}
+                        value={state.model.dob ?? ""}
                         onChange={fieldSetter("dob")}
                         disabled={!state.isEditing}
                     />
@@ -157,28 +159,28 @@ export default function ModelPage() {
                     <StyledTextField
                         variant="standard"
                         label="ethnicity"
-                        value={state.model.ethnicity}
+                        value={state.model.ethnicity ?? ""}
                         onChange={fieldSetter("ethnicity")}
                         disabled={!state.isEditing}
                     />
                     <StyledTextField
                         variant="standard"
                         label="eyeColor"
-                        value={state.model.eyeColor}
+                        value={state.model.eyeColor ?? ""}
                         onChange={fieldSetter("eyeColor")}
                         disabled={!state.isEditing}
                     />
                     <StyledTextField
                         variant="standard"
                         label="skinColor"
-                        value={state.model.skinColor}
+                        value={state.model.skinColor ?? ""}
                         onChange={fieldSetter("skinColor")}
                         disabled={!state.isEditing}
                     />
                     <StyledTextField
                         variant="standard"
                         label="hairColor"
-                        value={state.model.hairColor}
+                        value={state.model.hairColor ?? ""}
                         onChange={fieldSetter("hairColor")}
                         disabled={!state.isEditing}
                     />
