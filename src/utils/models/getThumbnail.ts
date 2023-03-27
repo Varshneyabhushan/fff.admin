@@ -4,7 +4,7 @@ import { featuringImage } from "../../services/Db/models/model"
 
 export default function getThumbnail(featuringImages?: featuringImage[]): string {
     //default 
-    if (!featuringImages || featuringImages.length == 0) {
+    if (!featuringImages || featuringImages.length === 0) {
         return "/nofems_400.svg"
     }
 

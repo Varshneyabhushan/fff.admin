@@ -5,7 +5,7 @@ import { useState } from "react"
 import config from "../config"
 import DbService from "../services/Db"
 import getThumbnail from "../utils/models/getThumbnail"
-import useModelState from "./state"
+import useModelState from "./useModelState"
 
 const StyledTextField = styled(TextField)({
     padding: 8,
@@ -27,7 +27,7 @@ export default function ModelPage() {
         <div>
             <div className="modelInfo">
                 <div className="preview">
-                    <img src={getThumbnail(model.featuringImages)} /> <br />
+                    <img alt={model.name} src={getThumbnail(model.featuringImages)} /> <br />
                     {
                         isEditing ?
                             (
