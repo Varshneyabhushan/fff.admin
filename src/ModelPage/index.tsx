@@ -1,11 +1,13 @@
 
 import styled from "@emotion/styled"
 import { Button, TextField } from "@mui/material"
-import { useState } from "react"
+import { ChangeEvent, ChangeEventHandler, useEffect, useReducer } from "react"
+import { useLocation, useParams } from "react-router-dom"
 import config from "../config"
 import DbService from "../services/Db"
+import { measurements, Model } from "../services/Db/models/model"
 import getThumbnail from "../utils/models/getThumbnail"
-import useModelState from "./useModelState"
+import modelReducer, { ModelPageState, modelReducerStates } from "./modelReducer"
 
 const StyledTextField = styled(TextField)({
     padding: 8,
@@ -13,27 +15,91 @@ const StyledTextField = styled(TextField)({
 
 const dbService = new DbService(config.dbAPIUrl)
 
+const defaultState: ModelPageState = {
+    isEditing: false,
+}
+
 export default function ModelPage() {
 
-    const modelResource = useModelState()
-    const [isEditing, setIsEditing] = useState(false)
-    if (!modelResource) {
+    const location = useLocation()
+    const { id } = useParams()
+    const [state, dispatch] = useReducer(modelReducer, defaultState)
+
+    useEffect(() => {
+        if (location.state?.model) {
+            dispatch({ type: modelReducerStates.Setup, payload: location.state.model })
+            return
+        }
+
+        dbService.getModelById(id ?? "")
+            .then(model =>
+                dispatch({ type: modelReducerStates.Setup, payload: model }))
+            .catch(err => {
+                throw err
+            })
+    },
+        [location.state, id])
+
+    if (!state.model) {
         return <></>
     }
 
-    const model = modelResource.read()
+    async function onSave() {
+        setIsEditing(false)
+        if (!state.model) {
+            alert('invalid model to save')
+            return
+        }
+
+        try {
+            await dbService.updateModel(state.model)
+            //better alert
+            alert("saved the changes")
+        }
+        catch(e : any) {
+            console.log("error when updating : ", e)
+            // throw new Error("error while saving model : " + e.message)
+        }
+    }
+
+
+    function setIsEditing(status: boolean) {
+        dispatch({ type: modelReducerStates.EditingChange, payload: status })
+    }
+
+    function fieldSetter(fieldName: keyof Model) {
+        return (e: ChangeEvent<HTMLInputElement>) => {
+            let payload = {
+                fieldName,
+                value: e.target.value,
+            }
+
+            dispatch({ type: modelReducerStates.FieldChange, payload })
+        }
+    }
+
+    function measurementsSetter(fieldName: keyof measurements) {
+        return (e: ChangeEvent<HTMLInputElement>) => {
+            let payload = {
+                fieldName,
+                value: e.target.value,
+            }
+
+            dispatch({ type: modelReducerStates.MeasurementsChange, payload })
+        }
+    }
 
     return (
         <div>
             <div className="modelInfo">
                 <div className="preview">
-                    <img alt={model.name} src={getThumbnail(model.featuringImages)} /> <br />
+                    <img alt={state.model.name} src={getThumbnail(state.model.featuringImages)} /> <br />
                     {
-                        isEditing ?
+                        state.isEditing ?
                             (
                                 <>
                                     <Button> first pic </Button>
-                                    <Button>Save</Button>
+                                    <Button onClick={onSave}>Save</Button>
                                     <Button onClick={() => setIsEditing(false)}> Cancel</Button>
                                 </>
 
@@ -43,16 +109,79 @@ export default function ModelPage() {
 
                 </div>
                 <div className="details">
-                    <StyledTextField variant="standard" value={model.name} label={"name"} disabled={!isEditing} /> <br />
-                    <StyledTextField variant="standard" value={model.bio} label={"bio"} disabled={!isEditing} fullWidth /> <br />
-                    <StyledTextField variant="standard" value={model.measurements?.bust} disabled={!isEditing} sx={{ width: 70 }} label={"bust"} />
-                    <StyledTextField variant="standard" value={model.measurements?.waist} disabled={!isEditing} sx={{ width: 70 }} label={"waist"} />
-                    <StyledTextField variant="standard" value={model.measurements?.hip} disabled={!isEditing} sx={{ width: 70 }} label={"hip"} /> <br />
-                    <StyledTextField variant="standard" value={model.dob} disabled={!isEditing} label={"date of birth"} /> <br />
-                    <StyledTextField variant="standard" value={model.ethnicity} disabled={!isEditing} label="ethnicity" />
-                    <StyledTextField variant="standard" value={model.eyeColor} disabled={!isEditing} label="eyeColor" />
-                    <StyledTextField variant="standard" value={model.skinColor} disabled={!isEditing} label="skinColor" />
-                    <StyledTextField variant="standard" value={model.hairColor} disabled={!isEditing} label="hairColor" />
+                    <StyledTextField
+                        variant="standard"
+                        label={"name"}
+                        value={state.model.name}
+                        onChange={fieldSetter("name")}
+                        disabled={!state.isEditing} /> <br />
+                    <StyledTextField
+                        variant="standard"
+                        label={"bio"}
+                        value={state.model.bio}
+                        onChange={fieldSetter("bio")}
+                        disabled={!state.isEditing} fullWidth /> <br />
+                    <StyledTextField
+                        variant="standard"
+                        label={"bust"}
+                        value={state.model.measurements?.bust}
+                        onChange={measurementsSetter("bust")}
+                        disabled={!state.isEditing}
+                        sx={{ width: 70 }}
+                    />
+                    <StyledTextField
+                        variant="standard"
+                        label={"waist"}
+                        value={state.model.measurements?.waist}
+                        onChange={measurementsSetter("waist")}
+                        disabled={!state.isEditing}
+                        sx={{ width: 70 }}
+                    />
+                    <StyledTextField
+                        variant="standard"
+                        label={"hip"}
+                        value={state.model.measurements?.hip}
+                        onChange={measurementsSetter("hip")}
+                        disabled={!state.isEditing}
+                        sx={{ width: 70 }}
+                    />
+                    <br />
+                    <StyledTextField
+                        variant="standard"
+                        label={"date of birth"}
+                        value={state.model.dob}
+                        onChange={fieldSetter("dob")}
+                        disabled={!state.isEditing}
+                    />
+                    <br />
+                    <StyledTextField
+                        variant="standard"
+                        label="ethnicity"
+                        value={state.model.ethnicity}
+                        onChange={fieldSetter("ethnicity")}
+                        disabled={!state.isEditing}
+                    />
+                    <StyledTextField
+                        variant="standard"
+                        label="eyeColor"
+                        value={state.model.eyeColor}
+                        onChange={fieldSetter("eyeColor")}
+                        disabled={!state.isEditing}
+                    />
+                    <StyledTextField
+                        variant="standard"
+                        label="skinColor"
+                        value={state.model.skinColor}
+                        onChange={fieldSetter("skinColor")}
+                        disabled={!state.isEditing}
+                    />
+                    <StyledTextField
+                        variant="standard"
+                        label="hairColor"
+                        value={state.model.hairColor}
+                        onChange={fieldSetter("hairColor")}
+                        disabled={!state.isEditing}
+                    />
                 </div>
             </div>
         </div>
