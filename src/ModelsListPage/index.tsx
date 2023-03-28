@@ -12,11 +12,11 @@ import ModelList from "./ModelList"
 
 
 const dbService = new DbService(config.dbAPIUrl)
-const initialModelsResource = toResource(dbService.getModels(0, 10))
+const ModelsPerPage = 20
+const initialModelsResource = toResource(dbService.getModels(0, ModelsPerPage))
 const modelsCountResource = toResource(dbService.getModelsCount())
 export type ModelsResource = Resource<Model[]>
 
-const ModelsPerPage = 20
 export function ModelListPage() {
 
     const [resource, setResource] = useState<ModelsResource>(initialModelsResource)
