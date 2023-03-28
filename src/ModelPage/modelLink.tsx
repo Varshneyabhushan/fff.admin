@@ -13,7 +13,6 @@ export function getHeaderState(model: Model): HeaderState {
         links: [
             { title: "models", link: "/models" },
             { title: model.name, link: `/models/${model._id}` },
-            { title: "albums", link: `/models/${model._id}/albums` }
         ]
     }
 }
