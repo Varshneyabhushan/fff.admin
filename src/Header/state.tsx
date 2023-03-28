@@ -1,15 +1,21 @@
 import { useLocation } from "react-router-dom";
 
-interface HeaderState {
+interface HeaderLink {
     title : string;
+    link : string;
 }
 
-const defaultState : HeaderState = { title : "models" }
+export interface HeaderState {
+    links : HeaderLink[];
+}
+
+const defaultState : HeaderState = { links : [{ title : "models", link : "/models"}] }
 
 export default function useHeaderState() : HeaderState {
     const location = useLocation()
-    const { title } = location.state?.header ?? defaultState
+    console.log(location)
+    const { links } = location.state?.header ?? defaultState
     return {
-        title
+        links
     }
 }

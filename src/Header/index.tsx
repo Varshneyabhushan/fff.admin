@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Button, useTheme } from "@mui/material"
+import { Breadcrumbs, Button, useTheme, Link } from "@mui/material"
 import QueueService from '../services/Queue';
 import config from '../config';
 import { Suspense, useState } from 'react';
@@ -33,14 +33,26 @@ export default function Header() {
     <>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {state.title}
-          </Typography>
+        <Toolbar sx={{ justifyContent : "space-between"}}>
+          <Breadcrumbs>
+          {
+            state.links.map(
+              link => (
+                <Link underline='hover' color='Highlight' href={link.link}>
+                  <Typography variant='h6'>
+                    {link.title}
+                  </Typography>
+                  </Link>
+              )
+            )
+          }
+          </Breadcrumbs>
+          <div style={{ display : "flex" }}>
           <ErrorBoundary fallback={"status loading failed"}>
-            <QueueStatus resource={resource} />
+            <QueueStatus resource={resource}/>
           </ErrorBoundary>
-          <Button variant='contained' onClick={refreshStatus}> status </Button>
+          <Button variant='contained' onClick={refreshStatus} > status </Button>
+          </div>
         </Toolbar>
       </AppBar>
     </Box>
