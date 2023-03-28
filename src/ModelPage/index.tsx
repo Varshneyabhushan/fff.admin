@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useReducer } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import config from "../config"
 import DbService from "../services/Db"
-import { measurements, Model } from "../services/Db/models/model"
+import { featuringImage, measurements, Model } from "../services/Db/models/model"
 import getThumbnail from "../utils/models/getThumbnail"
 import modelReducer, { ModelPageState, modelReducerStates } from "./modelReducer"
 
@@ -91,6 +91,26 @@ export default function ModelPage() {
         }
     }
 
+    function getRandomPic() {
+        if(!state.model) {
+            return
+        }
+
+        dbService.getRandomImageOfModel(state.model?._id)
+            .then(image => {
+                if(!image) {
+                    return
+                }
+
+                let payload : featuringImage = {
+                    imageId : image._id,
+                    imageUrl : image.url,
+                 }
+
+                dispatch({ type : modelReducerStates.FeaturingImageChange, payload })
+            })
+    }
+
     return (
         <div>
             <div className="modelInfo">
@@ -100,7 +120,7 @@ export default function ModelPage() {
                         state.isEditing ?
                             (
                                 <>
-                                    <Button> first pic </Button>
+                                    <Button onClick={getRandomPic}> first pic </Button>
                                     <Button onClick={onSave}>Save</Button>
                                     <Button onClick={() => setIsEditing(false)}> Cancel</Button>
                                 </>

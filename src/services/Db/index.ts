@@ -157,6 +157,16 @@ export default class DbService {
       }).then((data) => data.value);
    }
 
+   getRandomImageOfModel(modelId : string) : Promise<Image| null> {
+      return this.axios(
+         {
+            method : "get",
+            url : "/admin/images/random?modelId=" + modelId 
+         }
+      )
+      .then(data => data.image)
+   }
+
    getImages(modelId: string, skip: number, limit: number): Promise<Image[]> {
       return this.axios(
          {

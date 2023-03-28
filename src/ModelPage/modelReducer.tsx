@@ -15,7 +15,8 @@ export enum modelReducerStates {
     Setup,
     EditingChange,
     FieldChange,
-    MeasurementsChange
+    MeasurementsChange,
+    FeaturingImageChange,
 }
 
 export default function modelReducer(state : ModelPageState, action : Action) : ModelPageState {
@@ -50,6 +51,19 @@ export default function modelReducer(state : ModelPageState, action : Action) : 
 
             let measurement = action.payload.fieldName as keyof measurements
             newState.model.measurements[measurement] = action.payload.value
+            return newState
+
+        case modelReducerStates.FeaturingImageChange:
+            if(!newState.model) {
+                return newState
+            }
+
+            if(!newState.model.featuringImages || newState.model.featuringImages.length === 0) {
+                newState.model.featuringImages = [action.payload]
+                return newState
+            }
+
+            newState.model.featuringImages[0] = action.payload
             return newState
             
         default:
