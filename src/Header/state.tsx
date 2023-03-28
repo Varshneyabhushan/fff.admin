@@ -13,7 +13,6 @@ const defaultState : HeaderState = { links : [{ title : "models", link : "/model
 
 export default function useHeaderState() : HeaderState {
     const location = useLocation()
-    console.log(location)
     const { links } = location.state?.header ?? defaultState
     return {
         links
