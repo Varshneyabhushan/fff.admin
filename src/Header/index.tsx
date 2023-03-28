@@ -38,7 +38,7 @@ export default function Header() {
           {
             state.links.map(
               link => (
-                <Link underline='hover' color='Highlight' href={link.link}>
+                <Link key={link.link} underline='hover' color='Highlight' href={link.link}>
                   <Typography variant='h6'>
                     {link.title}
                   </Typography>

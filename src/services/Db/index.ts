@@ -132,6 +132,22 @@ export default class DbService {
       });
    }
 
+   getAlbumsCount(modelId : string) : Promise<number> {
+      return this.axios({
+         url : "/admin/albums/count?modelId=" + modelId
+      })
+      .then(data => data.count)
+   }
+
+   getAlbumsOfModel(modelId : string, skip : number, limit : number) : Promise<Album[]> {
+      return this.axios(
+         {
+            url : `/admin/albums?modelId=${modelId}&skip=${skip}&limit=${limit}`
+         }
+      )
+      .then(data => data.albums)
+   }
+
    addAlbum(album: Omit<Omit<Album, "_id">, "imageIds">): Promise<string> {
       return this.axios({
          method: "post",
