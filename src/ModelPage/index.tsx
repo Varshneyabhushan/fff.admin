@@ -120,7 +120,7 @@ export default function ModelPage() {
                         state.isEditing ?
                             (
                                 <>
-                                    <Button onClick={getRandomPic}> first pic </Button>
+                                    <Button onClick={getRandomPic}> random pic </Button>
                                     <Button onClick={onSave}>Save</Button>
                                     <Button onClick={() => setIsEditing(false)}> Cancel</Button>
                                 </>
