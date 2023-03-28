@@ -5,19 +5,20 @@ import "./index.scss"
 
 interface ModelLinkProps {
     children?: React.ReactNode;
-    source : Model;
+    source: Model;
 }
 
-export function getHeaderState(model : Model) : HeaderState {
-    return { 
-        links : [
-            { title : "models", link : "/models" },
-            { title : model.name, link : "/models/" + model._id }
+export function getHeaderState(model: Model): HeaderState {
+    return {
+        links: [
+            { title: "models", link: "/models" },
+            { title: model.name, link: `/models/${model._id}` },
+            { title: "albums", link: `/models/${model._id}/albums` }
         ]
     }
 }
 
-export default function ModelLink({ children, source } : ModelLinkProps) {
+export default function ModelLink({ children, source }: ModelLinkProps) {
 
     return (
         <Link
@@ -25,7 +26,7 @@ export default function ModelLink({ children, source } : ModelLinkProps) {
             to={`/models/${source._id}`}
             state={{
                 header: getHeaderState(source),
-                model : source,
+                model: source,
             }}
         >
             {children}
