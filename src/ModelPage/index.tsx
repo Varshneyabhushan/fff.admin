@@ -3,6 +3,7 @@ import styled from "@emotion/styled"
 import { Button, TextField } from "@mui/material"
 import { ChangeEvent, useEffect, useReducer } from "react"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
+import AlbumsListLink from "../AlbumListPage/AlbumsListLink"
 import config from "../config"
 import DbService from "../services/Db"
 import { featuringImage, measurements, Model } from "../services/Db/models/model"
@@ -206,6 +207,17 @@ export default function ModelPage() {
                         disabled={!state.isEditing}
                     />
                 </div>
+            </div>
+            <div style={{ display : "flex", justifyContent : "center" }}>
+                {
+                    (state.model) ? (
+                    <AlbumsListLink model={state.model}>
+                        <Button variant="contained"> goto albums</Button>
+                    </AlbumsListLink>
+                    ) : 
+                    ""
+                }
+                    
             </div>
         </div>
     )

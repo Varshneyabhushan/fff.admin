@@ -1,6 +1,7 @@
 
 import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import AlbumListPage from './AlbumListPage';
 import './App.css';
 import Header from './Header';
 import ModelPage from './ModelPage';
@@ -14,7 +15,11 @@ function App() {
         <Route path='/models' element={<Header />}>
           <Route path='/models'>
             <Route index element={<ModelListPage />} />
-            <Route path=':id' element={ <ModelPageLoader />} />
+            <Route path=':id'>
+              <Route index element={<ModelPageLoader/>}/>
+              <Route path='albums' element={<AlbumListPage/>}>
+              </Route>  
+            </Route>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to={"/models"} />} />
