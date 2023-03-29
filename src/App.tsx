@@ -2,6 +2,7 @@
 import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import AlbumListPage from './AlbumListPage';
+import AlbumPage from './AlbumPage';
 import './App.css';
 import Header from './Header';
 import ModelPage from './ModelPage';
@@ -17,7 +18,9 @@ function App() {
             <Route index element={<ModelListPage />} />
             <Route path=':id'>
               <Route index element={<ModelPageLoader/>}/>
-              <Route path='albums' element={<AlbumListPage/>}>
+              <Route path='albums'>
+                <Route index element={<AlbumListPage/>} />
+                <Route path=':id' element={<AlbumPage/>}/>
               </Route>  
             </Route>
           </Route>
