@@ -3,11 +3,15 @@ import { featuringImage } from "../../services/Db/models/model"
 
 
 export default function getThumbnail(featuringImages?: featuringImage[]): string {
-    //default 
-    if (!featuringImages || featuringImages.length === 0) {
+    let imageUrl = featuringImages?.[0]?.imageUrl ?? ""
+    return getImageUrl(imageUrl)
+}
+
+export function getImageUrl(url : string) : string {
+    //default
+    if(url.length === 0) {
         return "/nofems_400.svg"
     }
 
-    let featuringImage = featuringImages[0]
-    return `${config.imageHostAPIUrl}/images/${featuringImage.imageUrl}`
+    return `${config.imageHostAPIUrl}/images/${url}`
 }

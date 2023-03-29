@@ -9,5 +9,5 @@ export default interface Album {
 
 export interface AlbumImage {
    id: string;
-   originalUrl: string;
+   url: string;
 }

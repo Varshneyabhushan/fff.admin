@@ -68,7 +68,7 @@ export default function AlbumListPage() {
             <ErrorBoundary fallback={"error while loading albums"}>
                 <Suspense>
                     {
-                        (resource) ? <AlbumList resource={resource} /> : "loading.."
+                        (resource) ? <AlbumList resource={resource} model={location.state.model} /> : "loading.."
                     }
                 </Suspense>
 
