@@ -26,7 +26,7 @@ interface AlbumContainerProps {
 
 function AlbumContainer({ album, model }: AlbumContainerProps) {
     
-    const firstImage = getImageUrl(album.images?.[0]?.url ?? "")
+    let featuringImage = getImageUrl(album.featuringImages?.[0]?.url ?? album.images?.[0]?.url ?? "")
 
     const headerState = getHeaderState(model)
     headerState.links.push({ link : "./" + album._id, title : album.name })
@@ -42,7 +42,7 @@ function AlbumContainer({ album, model }: AlbumContainerProps) {
         state={nextState}
         >
         <div className="albumContainer">
-            <img alt={model.name} src={firstImage} />
+            <img alt={model.name} src={featuringImage} />
             <div className="title">{album.name}</div>
         </div>
         </Link>

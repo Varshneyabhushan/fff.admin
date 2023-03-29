@@ -37,8 +37,14 @@ export default function AlbumPage() {
     }
 
     function setAsAlbumPic(imageId: string) {
-
-    }
+        let featuringImages = [imageId]
+        dbService.updateAlbum(album._id, { featuringImages } as any)
+        .then(() => alert("updated the album"))
+        .catch((e) => {
+            console.log(e)
+            alert("error while updating : " + e.message)
+        })
+    }  
 
     return (
         <div>
@@ -99,7 +105,10 @@ function ImageContainer({ image, setAsModelPic, setAsAlbumPic }: ImageContainerP
                     },
                 }}
             >
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={() => {
+                    setAsAlbumPic(image.id)
+                    handleClose()
+                }}>
                     set as album pic
                 </MenuItem>
                 <MenuItem onClick={() => {

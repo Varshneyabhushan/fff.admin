@@ -5,6 +5,7 @@ export default interface Album {
    siteId: string;
    modelIds: string[];
    images?: AlbumImage[];
+   featuringImages?: AlbumImage[];
 }
 
 export interface AlbumImage {

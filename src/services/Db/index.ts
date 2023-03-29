@@ -164,6 +164,16 @@ export default class DbService {
       }).then((data) => data.value);
    }
 
+   updateAlbum(albumId : string, updateInfo : Partial<Album>) : Promise<boolean>{
+      return this.axios(
+         {
+            method : "patch",
+            url : `/admin/albums/${albumId}`,
+            data : updateInfo
+         }
+      )
+   }
+
    //images
    addImages(imageUrls: string[], modelId: string, siteId: string): Promise<string[]> {
       return this.axios({
