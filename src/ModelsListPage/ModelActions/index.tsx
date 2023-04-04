@@ -5,6 +5,7 @@ import config from "../../config"
 import { getHeaderState } from "../../ModelPage/modelLink"
 import DbService from "../../services/Db"
 import { Model } from "../../services/Db/models/model"
+import addModelFromURL from "./addModelFromURL"
 import ImportURLFormDialog from "./ImportURLForm"
 
 const dbService = new DbService(config.dbAPIUrl)
@@ -32,7 +33,18 @@ export default function ModelActions() {
     }
 
     function importModel(url : string) {
-        
+        addModelFromURL(url)
+            .then(
+                () => {
+                    alert("model added")
+                    navigate(".")
+                }
+            )
+            .catch(
+                (err) => {
+                    alert("error while adding model from URL : " + err.message ?? "")
+                }
+            )
     }
 
     return (
