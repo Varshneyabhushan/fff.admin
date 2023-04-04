@@ -1,5 +1,4 @@
 import ScrapperService from "../../../services/Scrapper";
-import QueueService from "../../../services/Queue";
 
 import DbService from "../../../services/Db";
 import ensureModelInDb from "./ensureModelInDb";
