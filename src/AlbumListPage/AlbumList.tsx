@@ -29,6 +29,7 @@ function AlbumContainer({ album, model }: AlbumContainerProps) {
     let featuringImage = getImageUrl(album.featuringImages?.[0]?.url ?? album.images?.[0]?.url ?? "")
 
     const headerState = getHeaderState(model)
+    headerState.links.push({ link : "../albums", title : "albums" })
     headerState.links.push({ link : "./" + album._id, title : album.name })
     const nextState = {
         header : headerState,

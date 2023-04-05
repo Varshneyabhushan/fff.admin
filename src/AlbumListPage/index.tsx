@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import config from "../config";
 import DbService from "../services/Db";
 import Album from "../services/Db/models/album";
@@ -24,15 +24,24 @@ export default function AlbumListPage() {
 
     const totalPages = Math.ceil((countResource?.read() ?? 0) / AlbumsPerPage)
 
+    const { id } = useParams()
+    let [model, setModel] = useState<Model|undefined>()
+
     useEffect(() => {
-        if (!location.state.model) {
+        let modelId = id ?? ""
+        setCountResource(toResource(dbService.getAlbumsCount(modelId)))
+        if (!location.state?.model) {
+            dbService.getModelById(modelId)
+                .then(model => setModel(model))
+
             return
         }
 
-        let model = location.state.model as Model
-        setCountResource(toResource(dbService.getAlbumsCount(model._id)))
+        model = location.state.model as Model
+        setModel(model)
+        
     },
-        [location.state])
+        [location.state, id, setModel, setCountResource])
 
     useEffect(() => {
         if(!countResource) {
@@ -45,14 +54,12 @@ export default function AlbumListPage() {
     },
     [countResource])
 
-    if(!location.state?.model) {
+    if(model === undefined) {
         return <div> loading... </div>
     }
 
-    let model = location.state.model as Model
-
     function pageChange(newPage: number) {
-        if (!location.state.model) {
+        if (!model) {
             return
         }
         
@@ -75,7 +82,7 @@ export default function AlbumListPage() {
             <ErrorBoundary fallback={"error while loading albums"}>
                 <Suspense>
                     {
-                        (resource) ? <AlbumList resource={resource} model={location.state.model} /> : ""
+                        (resource) ? <AlbumList resource={resource} model={model} /> : ""
                     }
                 </Suspense>
 
