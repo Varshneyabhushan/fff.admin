@@ -10,30 +10,14 @@ import { Model } from "../../services/Db/models/model";
 import ScrapperService from "../../services/Scrapper";
 import { AlbumSuggestion, ScrappedModel } from "../../services/Scrapper/models";
 
-enum albumCreationErrors {
-    emptyAlbum = "album is empty",
-    albumFull = "album is full"
-}
 export default async function importFromURL(model : Model, url : string) {
     const dbService = new DbService(config.dbAPIUrl)
-    const scrapperService = new ScrapperService(config.scrapperAPIUrl)
-
-    let scrappedAlbum = await scrapperService.getAlbum(url)
-
-    if(scrappedAlbum.images.length === 0) {
-        return Promise.reject(albumCreationErrors.emptyAlbum);
-    }
-
     let albumSuggestion : AlbumSuggestion = {
-        title : prompt('enter the name of the album', scrappedAlbum.title) ?? "new album",
+        title : "",
         link : url
     }
 
     let { isAlbumSaturated, getAlbumId } = await makeAlbumMapByLink(dbService, model._id, [url])
-    if(isAlbumSaturated(scrappedAlbum)) {
-        return Promise.reject(albumCreationErrors.albumFull)
-    }
-
     const ensureSiteAlias = makeEnsureSiteAlias(dbService, model, {} as ScrappedModel)
     await addAlbumIfNotExist(model, albumSuggestion, isAlbumSaturated, getAlbumId, ensureSiteAlias)
 }

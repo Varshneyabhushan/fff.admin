@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Model } from "../../services/Db/models/model";
 import importFromURL from "./importFromURL";
@@ -8,13 +8,13 @@ import "./index.scss"
 
 export default function AlbumActions({ model } : { model : Model }) {
 
-    function importAlbumFromURL(url : string) {
+    const importAlbumFromURL = useCallback((url : string) => {
         importFromURL(model, url)
             .catch(err => {
                 console.log('error while importing : ', err)
                 alert("error while importing : " + err)
             })
-    }
+    },[])
 
     const [open, setOpen] = useState(false)
 
