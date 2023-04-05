@@ -7,6 +7,7 @@ import { Model } from "../services/Db/models/model";
 import ErrorBoundary from "../utils/resource/ErrorBoundary";
 import Resource from "../utils/resource/Resource";
 import toResource from "../utils/resource/toResource";
+import AlbumActions from "./AlbumActions";
 import AlbumList from "./AlbumList";
 import AlbumPagination from "./Pagination";
 
@@ -44,12 +45,17 @@ export default function AlbumListPage() {
     },
     [countResource])
 
+    if(!location.state?.model) {
+        return <div> loading... </div>
+    }
+
+    let model = location.state.model as Model
+
     function pageChange(newPage: number) {
         if (!location.state.model) {
             return
         }
-
-        let model = location.state.model as Model
+        
         let skip = (newPage - 1) * AlbumsPerPage
         let newResource = toResource(dbService.getAlbumsOfModel(model._id, skip, AlbumsPerPage))
         setResource(newResource)
@@ -57,6 +63,7 @@ export default function AlbumListPage() {
 
     return (
         <div>
+            <AlbumActions model={model}/>
             <ErrorBoundary fallback={"error while loading pagination"}>
                 <Suspense>
                     <AlbumPagination

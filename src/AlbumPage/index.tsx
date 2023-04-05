@@ -25,31 +25,33 @@ export default function AlbumPage() {
     const model = location.state.model as Model
     const album = location.state.album as Album
 
-    function setAsModelPic(imageId: string, imageUrl : string) {
-        let featuringImages : featuringImage[] = [
+    function setAsModelPic(imageId: string, imageUrl: string) {
+        let featuringImages: featuringImage[] = [
             { imageId, imageUrl }
         ]
-        dbService.updateModel({ _id : model._id, featuringImages })
+        dbService.updateModel({ _id: model._id, featuringImages })
             .then(() => alert("updated the model"))
             .catch((e) => {
                 console.log(e)
-                alert("error while updating : " + e.message)})
+                alert("error while updating : " + e.message)
+            })
     }
 
     function setAsAlbumPic(imageId: string) {
         let featuringImages = [imageId]
         dbService.updateAlbum(album._id, { featuringImages } as any)
-        .then(() => alert("updated the album"))
-        .catch((e) => {
-            console.log(e)
-            alert("error while updating : " + e.message)
-        })
-    }  
+            .then(() => alert("updated the album"))
+            .catch((e) => {
+                console.log(e)
+                alert("error while updating : " + e.message)
+            })
+    }
 
     return (
         <div>
             <ImageList sx={{ width: "100%", height: "maxHeight" }} cols={5} rowHeight={200}>
                 {album.images?.map((image) => <ImageContainer
+                    key={image.id}
                     image={image}
                     setAsAlbumPic={setAsAlbumPic}
                     setAsModelPic={setAsModelPic}
@@ -61,7 +63,7 @@ export default function AlbumPage() {
 
 interface ImageContainerProps {
     image: AlbumImage;
-    setAsModelPic: (imageId: string, imageUrl : string) => void;
+    setAsModelPic: (imageId: string, imageUrl: string) => void;
     setAsAlbumPic: (imageId: string) => void;
 }
 

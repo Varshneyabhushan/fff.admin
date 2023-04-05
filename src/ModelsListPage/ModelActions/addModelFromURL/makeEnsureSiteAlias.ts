@@ -25,6 +25,15 @@ export default function makeEnsureSiteAlias(
       let site = await addSite(dbService, siteName);
       siteMapByNames.set(siteName, site._id as string);
 
+      if((link?.length ?? 0) === 0) {
+         let linkPrompt = prompt("enter source of model")
+         if(!linkPrompt) {
+            return Promise.reject('link should be not null')
+         }
+
+         link = linkPrompt
+      }
+
       //add siteAlias to model
       let newAlias = {
          siteId: site._id,
