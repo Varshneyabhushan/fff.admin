@@ -25,7 +25,7 @@ export default async function importFromURL(model : Model, url : string) {
     }
 
     let albumSuggestion : AlbumSuggestion = {
-        title : prompt('enter the name of the album') ?? "new album",
+        title : prompt('enter the name of the album', scrappedAlbum.title) ?? "new album",
         link : url
     }
 
