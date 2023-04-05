@@ -14,7 +14,7 @@ export default function AlbumActions({ model } : { model : Model }) {
                 console.log('error while importing : ', err)
                 alert("error while importing : " + err)
             })
-    },[])
+    },[model])
 
     const [open, setOpen] = useState(false)
 
