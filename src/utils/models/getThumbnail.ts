@@ -13,5 +13,6 @@ export function getImageUrl(url : string) : string {
         return "/nofems_400.svg"
     }
 
-    return `${config.imageHostAPIUrl}/images/${url}`
+    let result = `${config.imageHostAPIUrl}/images/${url}`
+    return encodeURI(result)
 }
