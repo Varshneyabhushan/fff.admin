@@ -20,6 +20,7 @@ export default function ModelActions() {
         dbService.addModel(addingModel)
             .then(modelId => {
                 addingModel._id = modelId
+                addingModel.siteAlias = []
 
                 let state = {
                     header : getHeaderState(addingModel),
