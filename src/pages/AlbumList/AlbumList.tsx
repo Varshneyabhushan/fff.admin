@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { getHeaderState } from "../ModelProfile/modelLink";
 import Album from "../../services/Db/models/album"
 import { Model } from "../../services/Db/models/model";
 import { getImageUrl } from "../../utils/models/getThumbnail";
@@ -28,11 +27,7 @@ function AlbumContainer({ album, model }: AlbumContainerProps) {
     
     let featuringImage = getImageUrl(album.featuringImages?.[0]?.url ?? album.images?.[0]?.url ?? "")
 
-    const headerState = getHeaderState(model)
-    headerState.links.push({ link : "../albums", title : "albums" })
-    headerState.links.push({ link : "./" + album._id, title : album.name })
     const nextState = {
-        header : headerState,
         model,
         album
     }

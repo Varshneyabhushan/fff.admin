@@ -8,7 +8,6 @@ import config from "../../config"
 import DbService from "../../services/Db"
 import { featuringImage, measurements, Model } from "../../services/Db/models/model"
 import getThumbnail from "../../utils/models/getThumbnail"
-import { getHeaderState } from "./modelLink"
 import modelReducer, { ModelPageState, modelReducerStates } from "./modelReducer"
 
 const StyledTextField = styled(TextField)({
@@ -54,7 +53,6 @@ export default function ModelPage() {
         try {
             await dbService.updateModel(state.model)
             location.state.model = state.model
-            location.state.header = getHeaderState(state.model)
             navigate(".", { state : location.state })
             //better alert
             alert("saved the changes")

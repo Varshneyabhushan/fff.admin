@@ -2,7 +2,6 @@ import { Button } from "@mui/material"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import config from "../../../config"
-import { getHeaderState } from "../../ModelProfile/modelLink"
 import DbService from "../../../services/Db"
 import { Model } from "../../../services/Db/models/model"
 import addModelFromURL from "./addModelFromURL"
@@ -23,7 +22,6 @@ export default function ModelActions() {
                 addingModel.siteAlias = []
 
                 let state = {
-                    header : getHeaderState(addingModel),
                     model : addingModel,
                 }
 

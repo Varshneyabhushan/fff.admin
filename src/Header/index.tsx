@@ -10,7 +10,6 @@ import { Suspense, useState } from 'react';
 import Resource from '../utils/resource/Resource';
 import toResource from '../utils/resource/toResource';
 import ErrorBoundary from '../utils/resource/ErrorBoundary';
-import useHeaderState from './state';
 import { Outlet } from 'react-router-dom';
 
 const queueService = new QueueService(config.queueAPIUrl)
@@ -27,26 +26,11 @@ export default function Header() {
     0)
   }
 
-  const state = useHeaderState()
-
   return (
     <>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar sx={{ justifyContent : "space-between"}}>
-          <Breadcrumbs>
-          {
-            state.links.map(
-              link => (
-                <Link key={link.link} underline='hover' color='Highlight' href={link.link}>
-                  <Typography variant='h6'>
-                    {link.title}
-                  </Typography>
-                  </Link>
-              )
-            )
-          }
-          </Breadcrumbs>
+        <Toolbar sx={{ justifyContent : "end" }}>
           <div style={{ display : "flex" }}>
           <ErrorBoundary fallback={"status loading failed"}>
             <QueueStatus resource={resource}/>
