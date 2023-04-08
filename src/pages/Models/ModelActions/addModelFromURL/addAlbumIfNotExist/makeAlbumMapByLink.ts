@@ -1,5 +1,5 @@
-import DbService, { AlbumByLinkResult } from "../../../../services/Db";
-import { ScrappedAlbum } from "../../../../services/Scrapper/models";
+import DbService, { AlbumByLinkResult } from "../../../../../services/Db";
+import { ScrappedAlbum } from "../../../../../services/Scrapper/models";
 
 export default async function makeAlbumMapByLink(
    dbService: DbService,

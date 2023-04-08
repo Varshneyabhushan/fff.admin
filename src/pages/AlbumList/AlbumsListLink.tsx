@@ -1,8 +1,8 @@
 import { Button } from "@mui/material";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { HeaderState } from "../Header/state";
-import { Model } from "../services/Db/models/model";
+import { HeaderState } from "../../Header/state";
+import { Model } from "../../services/Db/models/model";
 
 interface AlbumsListLinkProps {
     model: Model;

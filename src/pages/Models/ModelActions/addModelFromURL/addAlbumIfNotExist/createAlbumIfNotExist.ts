@@ -1,6 +1,6 @@
-import DbService from "../../../../services/Db";
-import Album from "../../../../services/Db/models/album";
-import { ScrappedAlbum } from "../../../../services/Scrapper/models";
+import DbService from "../../../../../services/Db";
+import Album from "../../../../../services/Db/models/album";
+import { ScrappedAlbum } from "../../../../../services/Scrapper/models";
 
 export default async function createAlbumIfNotExist(
    dbService: DbService,

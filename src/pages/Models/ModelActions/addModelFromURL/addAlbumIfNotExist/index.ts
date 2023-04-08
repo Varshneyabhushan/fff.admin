@@ -1,11 +1,11 @@
-import config from "../../../../config";
-import DbService from "../../../../services/Db";
-import QueueService from "../../../../services/Queue";
-import ScrapperService from "../../../../services/Scrapper";
-import { Model } from "../../../../services/Db/models/model";
-import { AlbumSuggestion, ScrappedAlbum } from "../../../../services/Scrapper/models";
+import config from "../../../../../config";
+import DbService from "../../../../../services/Db";
+import QueueService from "../../../../../services/Queue";
+import ScrapperService from "../../../../../services/Scrapper";
+import { Model } from "../../../../../services/Db/models/model";
+import { AlbumSuggestion, ScrappedAlbum } from "../../../../../services/Scrapper/models";
 
-import mergeScrappedAlbum from "../../../../services/Scrapper/utils/mergeScrappedAlbum";
+import mergeScrappedAlbum from "../../../../../services/Scrapper/utils/mergeScrappedAlbum";
 import createAlbumIfNotExist from "./createAlbumIfNotExist";
 import saveNewImages from "./saveNewImages";
 

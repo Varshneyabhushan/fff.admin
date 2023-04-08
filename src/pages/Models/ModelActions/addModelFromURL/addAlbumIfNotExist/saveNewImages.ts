@@ -1,9 +1,9 @@
-import DbService from "../../../../services/Db";
-import Album from "../../../../services/Db/models/album";
-import { Model } from "../../../../services/Db/models/model";
-import QueueService, { QueueItem } from "../../../../services/Queue";
-import { ScrappedImage } from "../../../../services/Scrapper/models";
-import { getTitleFromURL } from "../../../../utils/urls";
+import DbService from "../../../../../services/Db";
+import Album from "../../../../../services/Db/models/album";
+import { Model } from "../../../../../services/Db/models/model";
+import QueueService, { QueueItem } from "../../../../../services/Queue";
+import { ScrappedImage } from "../../../../../services/Scrapper/models";
+import { getTitleFromURL } from "../../../../../utils/urls";
 
 export default async function saveNewImages(
    dbService: DbService,

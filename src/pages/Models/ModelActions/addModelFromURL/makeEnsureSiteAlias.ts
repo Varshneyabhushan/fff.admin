@@ -1,8 +1,8 @@
 
-import DbService from "../../../services/Db";
-import { Model, siteAlias } from "../../../services/Db/models/model";
-import { Site } from "../../../services/Db/models/site";
-import { ScrappedModel } from "../../../services/Scrapper/models";
+import DbService from "../../../../services/Db";
+import { Model, siteAlias } from "../../../../services/Db/models/model";
+import { Site } from "../../../../services/Db/models/site";
+import { ScrappedModel } from "../../../../services/Scrapper/models";
 
 //makes sure that, siteAlias provided are present in model
 export default function makeEnsureSiteAlias(

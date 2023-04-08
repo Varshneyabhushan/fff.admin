@@ -1,6 +1,6 @@
-import DbService from "../../../services/Db";
-import { Model } from "../../../services/Db/models/model";
-import { ScrappedModel } from "../../../services/Scrapper/models";
+import DbService from "../../../../services/Db";
+import { Model } from "../../../../services/Db/models/model";
+import { ScrappedModel } from "../../../../services/Scrapper/models";
 
 function getDbModelFromModelInfo(scrappedModel: ScrappedModel): Model {
    let { title: name, bio, ethnicity, skinColor, eyeColor, hairColor } = scrappedModel;

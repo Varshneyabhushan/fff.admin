@@ -1,12 +1,12 @@
 
 import { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import AlbumListPage from './AlbumListPage';
-import AlbumPage from './AlbumPage';
+import AlbumListPage from './pages/AlbumList';
+import AlbumPage from './pages/Album';
 import './App.css';
 import Header from './Header';
-import ModelPage from './ModelPage';
-import { ModelListPage } from './ModelsListPage';
+import ModelPage from './pages/ModelProfile';
+import { ModelListPage } from './pages/Models';
 import ErrorBoundary from './utils/resource/ErrorBoundary';
 
 function App() {

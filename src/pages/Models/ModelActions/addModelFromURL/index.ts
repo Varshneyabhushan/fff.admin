@@ -1,12 +1,12 @@
-import ScrapperService from "../../../services/Scrapper";
+import ScrapperService from "../../../../services/Scrapper";
 
-import DbService from "../../../services/Db";
+import DbService from "../../../../services/Db";
 import ensureModelInDb from "./ensureModelInDb";
 
 import makeEnsureSiteAlias from "./makeEnsureSiteAlias";
 import makeAlbumMapByLink from "./addAlbumIfNotExist/makeAlbumMapByLink";
 import addAlbumIfNotExist from "./addAlbumIfNotExist";
-import config from "../../../config";
+import config from "../../../../config";
 
 export default async function addModelFromURL(url : string) {
 

@@ -1,14 +1,14 @@
 import { useLocation } from "react-router-dom"
-import Album, { AlbumImage } from "../services/Db/models/album"
-import { featuringImage, Model } from "../services/Db/models/model"
+import Album, { AlbumImage } from "../../services/Db/models/album"
+import { featuringImage, Model } from "../../services/Db/models/model"
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { getImageUrl } from "../utils/models/getThumbnail";
+import { getImageUrl } from "../../utils/models/getThumbnail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
-import DbService from "../services/Db";
-import config from "../config";
+import DbService from "../../services/Db";
+import config from "../../config";
 
 const dbService = new DbService(config.dbAPIUrl)
 

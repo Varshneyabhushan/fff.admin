@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { HeaderState } from "../Header/state";
-import { Model } from "../services/Db/models/model";
+import { HeaderState } from "../../Header/state";
+import { Model } from "../../services/Db/models/model";
 import "./index.scss"
 
 interface ModelLinkProps {

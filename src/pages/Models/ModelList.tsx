@@ -1,8 +1,8 @@
 
 import { ModelsResource } from "."
-import ModelLink from "../ModelPage/modelLink"
-import { Model } from "../services/Db/models/model"
-import getThumbnail from "../utils/models/getThumbnail"
+import ModelLink from "../ModelProfile/modelLink"
+import { Model } from "../../services/Db/models/model"
+import getThumbnail from "../../utils/models/getThumbnail"
 
 interface ModelListProps {
     resource: ModelsResource

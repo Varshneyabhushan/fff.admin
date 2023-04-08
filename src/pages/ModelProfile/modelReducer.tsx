@@ -1,5 +1,5 @@
 
-import { measurements, Model } from "../services/Db/models/model";
+import { measurements, Model } from "../../services/Db/models/model";
 
 export interface ModelPageState {
     model ?: Model;

@@ -1,12 +1,12 @@
 
 
 import { Fragment, Suspense, useState } from "react"
-import config from "../config"
-import DbService from "../services/Db"
-import { Model } from "../services/Db/models/model"
-import ErrorBoundary from "../utils/resource/ErrorBoundary"
-import Resource from "../utils/resource/Resource"
-import toResource from "../utils/resource/toResource"
+import config from "../../config"
+import DbService from "../../services/Db"
+import { Model } from "../../services/Db/models/model"
+import ErrorBoundary from "../../utils/resource/ErrorBoundary"
+import Resource from "../../utils/resource/Resource"
+import toResource from "../../utils/resource/toResource"
 import ModelPagination from "./Pagination"
 import ModelList from "./ModelList"
 import "./modelList.scss"
