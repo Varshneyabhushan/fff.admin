@@ -95,9 +95,14 @@ export default function AlbumListPage() {
 }
 
 function AlbumList({ resource, model }: { resource: Resource<Album[]>, model: Model }) {
+
+    const albums = resource.read()
+
     return (
         <div className="albumList">
-            {resource.read().map(album => <AlbumContainer key={album._id} album={album} model={model} />)}
+            {albums.map(
+                album => <AlbumContainer key={album._id} album={album} model={model} />
+            )}
         </div>
     )
 }
@@ -107,9 +112,7 @@ function AlbumContainer({ album, model }: { album: Album, model: Model }) {
     let featuringImage = getImageUrl(album.featuringImages?.[0]?.url ?? album.images?.[0]?.url ?? "")
 
     return (
-        <Link
-            to={`./${album._id}`}
-        >
+        <Link to={`./${album._id}`}>
             <div className="albumContainer">
                 <img alt={model.name} src={featuringImage} />
                 <div className="title">{album.name}</div>
