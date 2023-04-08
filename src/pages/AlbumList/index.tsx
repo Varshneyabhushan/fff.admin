@@ -1,5 +1,9 @@
+import "./index.scss"
+
 import { Suspense, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { getImageUrl } from "../../utils/models/getThumbnail";
+
+import { useLocation, useParams, Link } from "react-router-dom";
 import Pagination from "../../Components/Pagination";
 import config from "../../config";
 import DbService from "../../services/Db";
@@ -9,7 +13,6 @@ import ErrorBoundary from "../../utils/resource/ErrorBoundary";
 import Resource from "../../utils/resource/Resource";
 import toResource from "../../utils/resource/toResource";
 import AlbumActions from "./AlbumActions";
-import AlbumList from "./AlbumList";
 
 export type AlbumsResource = Resource<Album[]>
 
@@ -25,7 +28,7 @@ export default function AlbumListPage() {
     const totalPages = Math.ceil((countResource?.read() ?? 0) / AlbumsPerPage)
 
     const { id } = useParams()
-    let [model, setModel] = useState<Model|undefined>()
+    let [model, setModel] = useState<Model | undefined>()
 
     useEffect(() => {
         let modelId = id ?? ""
@@ -39,22 +42,22 @@ export default function AlbumListPage() {
 
         model = location.state.model as Model
         setModel(model)
-        
+
     },
         [location.state, id, setModel, setCountResource])
 
     useEffect(() => {
-        if(!countResource) {
-            return 
+        if (!countResource) {
+            return
         }
 
-        if(countResource.read() !== 0) {
+        if (countResource.read() !== 0) {
             pageChange(1)
         }
     },
-    [countResource])
+        [countResource])
 
-    if(model === undefined) {
+    if (model === undefined) {
         return <div> loading... </div>
     }
 
@@ -62,7 +65,7 @@ export default function AlbumListPage() {
         if (!model) {
             return
         }
-        
+
         let skip = (newPage - 1) * AlbumsPerPage
         let newResource = toResource(dbService.getAlbumsOfModel(model._id, skip, AlbumsPerPage))
         setResource(newResource)
@@ -70,7 +73,7 @@ export default function AlbumListPage() {
 
     return (
         <div>
-            <AlbumActions model={model}/>
+            <AlbumActions model={model} />
             <ErrorBoundary fallback={"error while loading pagination"}>
                 <Suspense>
                     <Pagination
@@ -88,5 +91,29 @@ export default function AlbumListPage() {
 
             </ErrorBoundary>
         </div>
+    )
+}
+
+function AlbumList({ resource, model }: { resource: Resource<Album[]>, model: Model }) {
+    return (
+        <div className="albumList">
+            {resource.read().map(album => <AlbumContainer key={album._id} album={album} model={model} />)}
+        </div>
+    )
+}
+
+function AlbumContainer({ album, model }: { album: Album, model: Model }) {
+
+    let featuringImage = getImageUrl(album.featuringImages?.[0]?.url ?? album.images?.[0]?.url ?? "")
+
+    return (
+        <Link
+            to={`./${album._id}`}
+        >
+            <div className="albumContainer">
+                <img alt={model.name} src={featuringImage} />
+                <div className="title">{album.name}</div>
+            </div>
+        </Link>
     )
 }
