@@ -24,7 +24,7 @@ const defaultState: ModelPageState = {
 export default function ModelPage() {
 
     const location = useLocation()
-    const { id } = useParams()
+    const { modelId : id } = useParams()
     const [state, dispatch] = useReducer(modelReducer, defaultState)
     const navigate = useNavigate()
 

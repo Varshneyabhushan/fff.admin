@@ -1,12 +1,12 @@
-import { useLocation } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import Album, { AlbumImage } from "../../services/Db/models/album"
-import { featuringImage, Model } from "../../services/Db/models/model"
+import { featuringImage } from "../../services/Db/models/model"
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { getImageUrl } from "../../utils/models/getThumbnail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IconButton, Menu, MenuItem } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DbService from "../../services/Db";
 import config from "../../config";
 
@@ -15,21 +15,22 @@ const dbService = new DbService(config.dbAPIUrl)
 export default function AlbumPage() {
 
     const location = useLocation()
-    if (!location.state.model || !location.state.album) {
+    const { modelId } = useParams()
+
+    if (!location.state?.album) {
         //implement loading
         return (
             <div>loading...</div>
         )
     }
 
-    const model = location.state.model as Model
     const album = location.state.album as Album
 
     function setAsModelPic(imageId: string, imageUrl: string) {
         let featuringImages: featuringImage[] = [
             { imageId, imageUrl }
         ]
-        dbService.updateModel({ _id: model._id, featuringImages })
+        dbService.updateModel({ _id: modelId, featuringImages })
             .then(() => alert("updated the model"))
             .catch((e) => {
                 console.log(e)
