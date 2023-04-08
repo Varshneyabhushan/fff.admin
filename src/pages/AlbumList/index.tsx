@@ -27,11 +27,10 @@ export default function AlbumListPage() {
 
     const totalPages = Math.ceil((countResource?.read() ?? 0) / AlbumsPerPage)
 
-    const { id } = useParams()
+    const { modelId = "" } = useParams()
     let [model, setModel] = useState<Model | undefined>()
 
     useEffect(() => {
-        let modelId = id ?? ""
         setCountResource(toResource(dbService.getAlbumsCount(modelId)))
         if (!location.state?.model) {
             dbService.getModelById(modelId)
@@ -44,7 +43,7 @@ export default function AlbumListPage() {
         setModel(model)
 
     },
-        [location.state, id, setModel, setCountResource])
+        [location.state, modelId, setModel, setCountResource])
 
     useEffect(() => {
         if (!countResource) {
