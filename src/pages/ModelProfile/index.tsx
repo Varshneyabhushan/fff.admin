@@ -4,8 +4,7 @@ import "./index.scss"
 import styled from "@emotion/styled"
 import { Button, TextField } from "@mui/material"
 import { ChangeEvent, useEffect, useReducer } from "react"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
-import AlbumsListLink from "../AlbumList/AlbumsListLink"
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import config from "../../config"
 import DbService from "../../services/Db"
 import { featuringImage, measurements, Model } from "../../services/Db/models/model"
@@ -55,13 +54,13 @@ export default function ModelPage() {
         try {
             await dbService.updateModel(state.model)
             location.state.model = state.model
-            navigate(".", { state : location.state })
+            navigate(".", { state: location.state })
             //better alert
             alert("saved the changes")
         }
         catch (e: any) {
             console.log("error when updating : ", e)
-            
+
             // throw new Error("error while saving model : " + e.message)
         }
     }
@@ -94,22 +93,22 @@ export default function ModelPage() {
     }
 
     function getRandomPic() {
-        if(!state.model) {
+        if (!state.model) {
             return
         }
 
         dbService.getRandomImageOfModel(state.model?._id)
             .then(image => {
-                if(!image) {
+                if (!image) {
                     return
                 }
 
-                let payload : featuringImage = {
-                    imageId : image._id,
-                    imageUrl : image.url,
-                 }
+                let payload: featuringImage = {
+                    imageId: image._id,
+                    imageUrl: image.url,
+                }
 
-                dispatch({ type : modelReducerStates.FeaturingImageChange, payload })
+                dispatch({ type: modelReducerStates.FeaturingImageChange, payload })
             })
     }
 
@@ -208,16 +207,19 @@ export default function ModelPage() {
                     />
                 </div>
             </div>
-            <div style={{ display : "flex", justifyContent : "center" }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
                 {
                     (state.model) ? (
-                    <AlbumsListLink model={state.model}>
-                        <Button variant="contained"> goto albums</Button>
-                    </AlbumsListLink>
-                    ) : 
-                    ""
+                        <Link
+                            style={{ textDecoration: "none" }}
+                            to={`/models/${state.model._id}/albums`}
+                        >
+                            {<Button variant="contained"> goto albums</Button>}
+                        </Link>
+                    ) :
+                        ""
                 }
-                    
+
             </div>
         </div>
     )
