@@ -1,28 +1,6 @@
 
-.modelContainer {
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    float: left;
-    padding: 10px;
-    margin: auto;
-    cursor: pointer;
-
-    img {
-        width: 250px;
-        height : 300px;
-        object-fit: cover;
-    }
-
-    .title {
-        padding: 10px;
-        justify-content: center;
-        margin: auto;
-    }
-}
 
 .modelInfo {
-
     display: flex;
     justify-content: space-around;
     padding: 20px;

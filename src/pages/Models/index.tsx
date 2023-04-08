@@ -1,6 +1,9 @@
 
+import "./index.scss"
 
 import { Fragment, Suspense, useState } from "react"
+import { Link } from "react-router-dom";
+
 import config from "../../config"
 import DbService from "../../services/Db"
 import { Model } from "../../services/Db/models/model"
@@ -8,9 +11,8 @@ import ErrorBoundary from "../../utils/resource/ErrorBoundary"
 import Resource from "../../utils/resource/Resource"
 import toResource from "../../utils/resource/toResource"
 import Pagination from "../../Components/Pagination"
-import ModelList from "./ModelList"
-import "./index.scss"
 import ModelActions from "./Actions"
+import getThumbnail from "../../utils/models/getThumbnail"
 
 const dbService = new DbService(config.dbAPIUrl)
 const ModelsPerPage = 20
@@ -21,7 +23,7 @@ export type ModelsResource = Resource<Model[]>
 export function ModelListPage() {
 
     const [resource, setResource] = useState<ModelsResource>(initialModelsResource)
-    
+
     const totalModels = modelsCountResource.read()
     const totalPages = Math.ceil(totalModels / ModelsPerPage)
 
@@ -34,7 +36,7 @@ export function ModelListPage() {
     return (
         <Fragment>
             <ErrorBoundary fallback={"error while loading pagination"}>
-                <ModelActions/>
+                <ModelActions />
                 <Pagination pageChange={pageChange} totalPages={totalPages} totalItems={totalModels} />
             </ErrorBoundary>
             <ErrorBoundary fallback={"error while loading models"}>
@@ -43,5 +45,30 @@ export function ModelListPage() {
                 </Suspense>
             </ErrorBoundary>
         </Fragment>
+    )
+}
+
+
+function ModelList({ resource }: { resource: ModelsResource }) {
+    return (
+        <div className="modelList">
+            {resource.read().map(model => <ModelContainer key={model._id} source={model} />)}
+        </div>
+    )
+}
+
+
+function ModelContainer({ source }: { source: Model }) {
+    return (
+        <Link
+            className="modelContainer"
+            to={`/models/${source._id}`}
+            state={{
+                model: source,
+            }}
+        >
+            <img alt={source.name} src={getThumbnail(source.featuringImages)} />
+            <div className="title">{source.name}</div>
+        </Link>
     )
 }
