@@ -7,10 +7,10 @@ import { Model } from "../../services/Db/models/model"
 import ErrorBoundary from "../../utils/resource/ErrorBoundary"
 import Resource from "../../utils/resource/Resource"
 import toResource from "../../utils/resource/toResource"
-import ModelPagination from "./Pagination"
+import Pagination from "../../Components/Pagination"
 import ModelList from "./ModelList"
-import "./modelList.scss"
-import ModelActions from "./ModelActions"
+import "./index.scss"
+import ModelActions from "./Actions"
 
 const dbService = new DbService(config.dbAPIUrl)
 const ModelsPerPage = 20
@@ -35,7 +35,7 @@ export function ModelListPage() {
         <Fragment>
             <ErrorBoundary fallback={"error while loading pagination"}>
                 <ModelActions/>
-                <ModelPagination pageChange={pageChange} totalPages={totalPages} totalModels={totalModels} />
+                <Pagination pageChange={pageChange} totalPages={totalPages} totalItems={totalModels} />
             </ErrorBoundary>
             <ErrorBoundary fallback={"error while loading models"}>
                 <Suspense fallback={"loading modelList"}>

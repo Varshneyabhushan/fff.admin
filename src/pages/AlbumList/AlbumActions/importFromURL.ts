@@ -1,7 +1,7 @@
 import config from "../../../config";
-import addAlbumIfNotExist from "../../Models/ModelActions/addModelFromURL/addAlbumIfNotExist";
-import makeAlbumMapByLink from "../../Models/ModelActions/addModelFromURL/addAlbumIfNotExist/makeAlbumMapByLink";
-import makeEnsureSiteAlias from "../../Models/ModelActions/addModelFromURL/makeEnsureSiteAlias";
+import addAlbumIfNotExist from "../../Models/Actions/addModelFromURL/addAlbumIfNotExist";
+import makeAlbumMapByLink from "../../Models/Actions/addModelFromURL/addAlbumIfNotExist/makeAlbumMapByLink";
+import makeEnsureSiteAlias from "../../Models/Actions/addModelFromURL/makeEnsureSiteAlias";
 import DbService from "../../../services/Db";
 import { Model } from "../../../services/Db/models/model";
 import { AlbumSuggestion, ScrappedModel } from "../../../services/Scrapper/models";

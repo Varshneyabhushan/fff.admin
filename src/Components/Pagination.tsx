@@ -1,14 +1,14 @@
-import { Container, Pagination, Typography, useTheme } from "@mui/material";
+import { Container, Pagination as PaginationMui, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 
 
-interface ModelPaginationProps {
+interface PaginationProps {
     pageChange: (x: number) => void;
     totalPages : number;
-    totalModels : number;
+    totalItems : number;
 }
 
-export default function ModelPagination({ pageChange, totalPages, totalModels }: ModelPaginationProps) {
+export default function Pagination({ pageChange, totalPages, totalItems }: PaginationProps) {
     
     const theme = useTheme()
     const [page, setPage] = useState(1)
@@ -24,10 +24,8 @@ export default function ModelPagination({ pageChange, totalPages, totalModels }:
             padding : theme.spacing(2),
             alignItems : "center"
             }}>
-            <Typography variant="h6">
-                {`total ${totalModels} models found`}
-            </Typography>
-            <Pagination count={totalPages} page={page} onChange={onChange} />
+            <PaginationMui count={totalPages} page={page} onChange={onChange} />
+            <Typography variant="subtitle2" fontWeight="500"> {totalItems}</Typography>
         </Container>
     )
 }
