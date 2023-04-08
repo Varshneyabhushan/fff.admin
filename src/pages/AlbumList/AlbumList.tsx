@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { getHeaderState } from "../ModelProfile/modelLink";
 import Album from "../../services/Db/models/album"
 import { Model } from "../../services/Db/models/model";
-import getThumbnail, { getImageUrl } from "../../utils/models/getThumbnail";
+import { getImageUrl } from "../../utils/models/getThumbnail";
 import Resource from "../../utils/resource/Resource"
-import "./albumList.scss"
+import "./index.scss"
 
 interface AlbumListProps {
     resource: Resource<Album[]>;

@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import Pagination from "../../Components/Pagination";
 import config from "../../config";
 import DbService from "../../services/Db";
 import Album from "../../services/Db/models/album";
@@ -9,7 +10,6 @@ import Resource from "../../utils/resource/Resource";
 import toResource from "../../utils/resource/toResource";
 import AlbumActions from "./AlbumActions";
 import AlbumList from "./AlbumList";
-import AlbumPagination from "./Pagination";
 
 export type AlbumsResource = Resource<Album[]>
 
@@ -73,10 +73,10 @@ export default function AlbumListPage() {
             <AlbumActions model={model}/>
             <ErrorBoundary fallback={"error while loading pagination"}>
                 <Suspense>
-                    <AlbumPagination
+                    <Pagination
                         pageChange={pageChange}
                         totalPages={totalPages}
-                        totalAlbums={countResource?.read() ?? 0} />
+                        totalItems={countResource?.read() ?? 0} />
                 </Suspense>
             </ErrorBoundary>
             <ErrorBoundary fallback={"error while loading albums"}>
