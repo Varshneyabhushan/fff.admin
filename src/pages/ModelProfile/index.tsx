@@ -2,7 +2,7 @@
 import "./index.scss"
 
 import styled from "@emotion/styled"
-import { Button, TextField } from "@mui/material"
+import { Button, TextField, Typography } from "@mui/material"
 import { ChangeEvent, useEffect, useReducer } from "react"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import config from "../../config"
@@ -10,6 +10,7 @@ import DbService from "../../services/Db"
 import { featuringImage, measurements, Model } from "../../services/Db/models/model"
 import getThumbnail from "../../utils/models/getThumbnail"
 import modelReducer, { ModelPageState, modelReducerStates } from "./modelReducer"
+import AlbumList from "../AlbumList"
 
 const StyledTextField = styled(TextField)({
     padding: 8,
@@ -24,7 +25,7 @@ const defaultState: ModelPageState = {
 export default function ModelPage() {
 
     const location = useLocation()
-    const { modelId : id } = useParams()
+    const { modelId: id } = useParams()
     const [state, dispatch] = useReducer(modelReducer, defaultState)
     const navigate = useNavigate()
 
@@ -207,21 +208,11 @@ export default function ModelPage() {
                     />
                 </div>
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-                {
-                    (state.model) ? (
-                        <Link
-                            style={{ textDecoration: "none" }}
-                            to={`/models/${state.model._id}/albums`}
-                            state={{model : state.model }}
-                        >
-                            {<Button variant="contained"> goto albums</Button>}
-                        </Link>
-                    ) :
-                        ""
-                }
 
+            <div style={{ display: "flex", justifyContent : "center" }}>
+                <Typography variant="h4"> Albums </Typography>
             </div>
+            <AlbumList />
         </div>
     )
 }
