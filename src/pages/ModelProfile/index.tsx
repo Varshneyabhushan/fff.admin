@@ -213,6 +213,7 @@ export default function ModelPage() {
                         <Link
                             style={{ textDecoration: "none" }}
                             to={`/models/${state.model._id}/albums`}
+                            state={{model : state.model }}
                         >
                             {<Button variant="contained"> goto albums</Button>}
                         </Link>

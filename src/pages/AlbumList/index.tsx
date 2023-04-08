@@ -112,7 +112,7 @@ function AlbumContainer({ album, model }: { album: Album, model: Model }) {
     let featuringImage = getImageUrl(album.featuringImages?.[0]?.url ?? album.images?.[0]?.url ?? "")
 
     return (
-        <Link to={`./${album._id}`}>
+        <Link to={`./${album._id}`} state={{album}}>
             <div className="albumContainer">
                 <img alt={model.name} src={featuringImage} />
                 <div className="title">{album.name}</div>
