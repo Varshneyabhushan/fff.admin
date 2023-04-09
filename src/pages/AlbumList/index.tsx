@@ -13,6 +13,7 @@ import ErrorBoundary from "../../utils/resource/ErrorBoundary";
 import Resource from "../../utils/resource/Resource";
 import toResource from "../../utils/resource/toResource";
 import AlbumActions from "./AlbumActions";
+import useModel from "../ModelProfile/useModel";
 
 export type AlbumsResource = Resource<Album[]>
 
@@ -23,27 +24,19 @@ export default function AlbumListPage() {
 
     const [resource, setResource] = useState<Resource<Album[]>>()
     const [countResource, setCountResource] = useState<Resource<number>>()
-    const location = useLocation()
 
     const totalPages = Math.ceil((countResource?.read() ?? 0) / AlbumsPerPage)
 
-    const { modelId = "" } = useParams()
-    let [model, setModel] = useState<Model | undefined>()
+    const [model, isModelLoading] = useModel()
 
     useEffect(() => {
-        setCountResource(toResource(dbService.getAlbumsCount(modelId)))
-        if (!location.state?.model) {
-            dbService.getModelById(modelId)
-                .then(model => setModel(model))
-
+        if(isModelLoading) {
             return
         }
 
-        model = location.state.model as Model
-        setModel(model)
-
+        setCountResource(toResource(dbService.getAlbumsCount(model._id)))
     },
-        [location.state, modelId, setModel, setCountResource])
+        [isModelLoading, model, setCountResource])
 
     useEffect(() => {
         if (!countResource) {
@@ -56,7 +49,7 @@ export default function AlbumListPage() {
     },
         [countResource])
 
-    if (model === undefined) {
+    if (isModelLoading) {
         return <div> loading... </div>
     }
 
