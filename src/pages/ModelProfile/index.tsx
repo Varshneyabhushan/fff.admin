@@ -4,13 +4,14 @@ import "./index.scss"
 import styled from "@emotion/styled"
 import { Button, TextField, Typography } from "@mui/material"
 import { ChangeEvent, useEffect, useReducer } from "react"
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import config from "../../config"
 import DbService from "../../services/Db"
 import { featuringImage, measurements, Model } from "../../services/Db/models/model"
 import getThumbnail from "../../utils/models/getThumbnail"
 import modelReducer, { ModelPageState, modelReducerStates } from "./modelReducer"
 import AlbumList from "../AlbumList"
+import useModel from "./useModel"
 
 const StyledTextField = styled(TextField)({
     padding: 8,
@@ -25,21 +26,18 @@ const defaultState: ModelPageState = {
 export default function ModelPage() {
 
     const location = useLocation()
-    const { modelId: id } = useParams()
     const [state, dispatch] = useReducer(modelReducer, defaultState)
+    const [model, isModelLoading] = useModel()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (location.state?.model) {
-            dispatch({ type: modelReducerStates.Setup, payload: location.state.model })
+        if(isModelLoading) {
             return
         }
 
-        dbService.getModelById(id ?? "")
-            .then(model =>
-                dispatch({ type: modelReducerStates.Setup, payload: model }))
+        dispatch({ type: modelReducerStates.Setup, payload: model })
     },
-        [location.state, id])
+    [model, isModelLoading, dispatch])
 
     if (!state.model) {
         return <></>
