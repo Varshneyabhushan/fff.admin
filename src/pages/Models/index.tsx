@@ -1,7 +1,7 @@
 
 import "./index.scss"
 
-import { Fragment, Suspense, useState } from "react"
+import { Fragment, Suspense } from "react"
 import { Link } from "react-router-dom";
 
 import config from "../../config"
@@ -13,35 +13,29 @@ import toResource from "../../utils/resource/toResource"
 import Pagination from "../../Components/Pagination"
 import ModelActions from "./Actions"
 import getThumbnail from "../../utils/models/getThumbnail"
+import useModels from "./useModels";
 
 const dbService = new DbService(config.dbAPIUrl)
 const ModelsPerPage = 20
-const initialModelsResource = toResource(dbService.getModels(0, ModelsPerPage))
 const modelsCountResource = toResource(dbService.getModelsCount())
 export type ModelsResource = Resource<Model[]>
 
 export function ModelListPage() {
 
-    const [resource, setResource] = useState<ModelsResource>(initialModelsResource)
+    const [models, loadPage] = useModels(ModelsPerPage)
 
     const totalModels = modelsCountResource.read()
     const totalPages = Math.ceil(totalModels / ModelsPerPage)
-
-    function pageChange(newPageVal: number) {
-        let skip = (newPageVal - 1) * ModelsPerPage
-        let newResource = toResource(dbService.getModels(skip, ModelsPerPage))
-        setResource(newResource)
-    }
 
     return (
         <Fragment>
             <ErrorBoundary fallback={"error while loading pagination"}>
                 <ModelActions />
-                <Pagination pageChange={pageChange} totalPages={totalPages} totalItems={totalModels} />
+                <Pagination pageChange={loadPage} totalPages={totalPages} totalItems={totalModels} />
             </ErrorBoundary>
             <ErrorBoundary fallback={"error while loading models"}>
                 <Suspense fallback={"loading modelList"}>
-                    <ModelList resource={resource} />
+                    <ModelList resource={models} />
                 </Suspense>
             </ErrorBoundary>
         </Fragment>
@@ -50,9 +44,12 @@ export function ModelListPage() {
 
 
 function ModelList({ resource }: { resource: ModelsResource }) {
+
+    let models = resource.read()
+
     return (
         <div className="modelList">
-            {resource.read().map(model => <ModelContainer key={model._id} source={model} />)}
+            {models.map(model => <ModelContainer key={model._id} source={model} />)}
         </div>
     )
 }
