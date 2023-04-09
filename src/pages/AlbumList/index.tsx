@@ -3,7 +3,7 @@ import "./index.scss"
 import { Suspense, useEffect, useState } from "react";
 import { getImageUrl } from "../../utils/models/getThumbnail";
 
-import { useLocation, useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Pagination from "../../Components/Pagination";
 import config from "../../config";
 import DbService from "../../services/Db";
