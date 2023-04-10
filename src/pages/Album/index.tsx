@@ -5,8 +5,8 @@ import { getImageUrl } from "../../utils/models/getThumbnail";
 import DbService from "../../services/Db";
 import config from "../../config";
 import OptionsPicker from "../../Components/OptionsPicker";
-import useAlbum from "./useAlbum";
-import { useModelId } from "../ModelProfile/useModel";
+import useAlbum from "../../hooks/pages/useAlbum";
+import useModelId from "../../hooks/pages/useModelId";
 
 const dbService = new DbService(config.dbAPIUrl)
 

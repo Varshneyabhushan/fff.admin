@@ -11,7 +11,7 @@ import { measurements, Model } from "../../services/Db/models/model"
 import getThumbnail from "../../utils/models/getThumbnail"
 import modelReducer, { ModelPageState, modelReducerStates } from "./modelReducer"
 import AlbumList from "../AlbumList"
-import useModel from "./useModel"
+import useModel from "../../hooks/pages/useModel"
 
 const StyledTextField = styled(TextField)({
     padding: 8,

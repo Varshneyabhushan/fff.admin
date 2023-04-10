@@ -13,7 +13,7 @@ import toResource from "../../utils/resource/toResource"
 import Pagination from "../../Components/Pagination"
 import ModelActions from "./Actions"
 import getThumbnail from "../../utils/models/getThumbnail"
-import useModels from "./useModels";
+import useModels from "../../hooks/pages/useModels";
 
 const dbService = new DbService(config.dbAPIUrl)
 const ModelsPerPage = 20

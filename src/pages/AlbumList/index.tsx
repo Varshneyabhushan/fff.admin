@@ -1,6 +1,6 @@
 import "./index.scss"
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { getImageUrl } from "../../utils/models/getThumbnail";
 
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ import ErrorBoundary from "../../utils/resource/ErrorBoundary";
 import Resource from "../../utils/resource/Resource";
 import toResource from "../../utils/resource/toResource";
 import AlbumActions from "./AlbumActions";
-import useModel from "../ModelProfile/useModel";
+import useModel from "../../hooks/pages/useModel";
 
 export type AlbumsResource = Resource<Album[]>
 
@@ -38,6 +38,17 @@ export default function AlbumListPage() {
     },
         [model, setCountResource])
 
+    const pageChange = useCallback((newPage : number) => {
+        if (!model) {
+            return
+        }
+
+        let skip = (newPage - 1) * AlbumsPerPage
+        let newResource = toResource(dbService.getAlbumsOfModel(model._id, skip, AlbumsPerPage))
+        setResource(newResource)
+    },
+    [model, setResource])
+
     useEffect(() => {
         if (!countResource) {
             return
@@ -47,20 +58,10 @@ export default function AlbumListPage() {
             pageChange(1)
         }
     },
-        [countResource])
+        [countResource, pageChange])
 
     if (!model) {
         return <div> loading... </div>
-    }
-
-    function pageChange(newPage: number) {
-        if (!model) {
-            return
-        }
-
-        let skip = (newPage - 1) * AlbumsPerPage
-        let newResource = toResource(dbService.getAlbumsOfModel(model._id, skip, AlbumsPerPage))
-        setResource(newResource)
     }
 
     return (
