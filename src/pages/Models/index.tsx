@@ -22,7 +22,7 @@ export type ModelsResource = Resource<Model[]>
 
 export function ModelListPage() {
 
-    const [models, loadPage] = useModels(ModelsPerPage)
+    const [modelsResource, loadPage] = useModels(ModelsPerPage)
 
     const totalModels = modelsCountResource.read()
     const totalPages = Math.ceil(totalModels / ModelsPerPage)
@@ -35,22 +35,14 @@ export function ModelListPage() {
             </ErrorBoundary>
             <ErrorBoundary fallback={"error while loading models"}>
                 <Suspense fallback={"loading modelList"}>
-                    <ModelList resource={models} />
+                    <div className="modelList">
+                        {modelsResource.read()
+                            .map(model => <ModelContainer key={model._id} source={model} />)
+                        }
+                    </div>
                 </Suspense>
             </ErrorBoundary>
         </Fragment>
-    )
-}
-
-
-function ModelList({ resource }: { resource: ModelsResource }) {
-
-    let models = resource.read()
-
-    return (
-        <div className="modelList">
-            {models.map(model => <ModelContainer key={model._id} source={model} />)}
-        </div>
     )
 }
 
