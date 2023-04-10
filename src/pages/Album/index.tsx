@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "react-router-dom"
-import Album, { AlbumImage } from "../../services/Db/models/album"
+import Album from "../../services/Db/models/album"
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { getImageUrl } from "../../utils/models/getThumbnail";
@@ -47,9 +47,9 @@ export default function AlbumPage() {
     return (
         <div>
             <ImageList sx={{ width: "100%", height: "maxHeight" }} cols={5} rowHeight={200}>
-                {album.images?.map((image) => <ImageContainer
-                    key={image.id}
-                    image={image}
+                {album.images?.map((imageId) => <ImageContainer
+                    key={imageId}
+                    imageId={imageId}
                     setAsAlbumPic={setAsAlbumPic}
                     setAsModelPic={setAsModelPic}
                 />) ?? ""}
@@ -59,12 +59,12 @@ export default function AlbumPage() {
 }
 
 interface ImageContainerProps {
-    image: AlbumImage;
+    imageId: string;
     setAsModelPic: (imageId: string) => void;
     setAsAlbumPic: (imageId: string) => void;
 }
 
-function ImageContainer({ image, setAsModelPic, setAsAlbumPic }: ImageContainerProps) {
+function ImageContainer({ imageId, setAsModelPic, setAsAlbumPic }: ImageContainerProps) {
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -77,7 +77,7 @@ function ImageContainer({ image, setAsModelPic, setAsAlbumPic }: ImageContainerP
 
 
     return (
-        <ImageListItem key={image.id}>
+        <ImageListItem key={imageId}>
             <IconButton
                 aria-label="more"
                 id="long-button"
@@ -105,21 +105,21 @@ function ImageContainer({ image, setAsModelPic, setAsAlbumPic }: ImageContainerP
                 }}
             >
                 <MenuItem onClick={() => {
-                    setAsAlbumPic(image.id)
+                    setAsAlbumPic(imageId)
                     handleClose()
                 }}>
                     set as album pic
                 </MenuItem>
                 <MenuItem onClick={() => {
-                    setAsModelPic(image.id)
+                    setAsModelPic(imageId)
                     handleClose()
                 }}>
                     set as model pic
                 </MenuItem>
             </Menu>
             <img
-                src={getImageUrl(image.url)}
-                alt={image.id}
+                src={getImageUrl(imageId)}
+                alt={imageId}
                 loading="lazy"
             />
         </ImageListItem>

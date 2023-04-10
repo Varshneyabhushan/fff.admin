@@ -4,11 +4,7 @@ export default interface Album {
    originalUrl?: string;
    siteId: string;
    modelIds: string[];
-   images?: AlbumImage[];
-   featuringImages?: AlbumImage[];
+   images?: string[];
+   featuringImages?: string[];
 }
 
-export interface AlbumImage {
-   id: string;
-   url: string;
-}

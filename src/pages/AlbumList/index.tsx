@@ -101,7 +101,7 @@ function AlbumList({ resource, model }: { resource: Resource<Album[]>, model: Mo
 
 function AlbumContainer({ album, model }: { album: Album, model: Model }) {
 
-    let featuringImage = getImageUrl(album.featuringImages?.[0]?.url ?? album.images?.[0]?.url ?? "")
+    let featuringImage = getImageUrl(album.featuringImages?.[0] ?? album.images?.[0] ?? "")
 
     return (
         <Link to={`/models/${model._id}/albums/${album._id}`} state={{album}}>
