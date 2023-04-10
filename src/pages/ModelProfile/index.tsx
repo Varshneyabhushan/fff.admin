@@ -7,7 +7,7 @@ import { ChangeEvent, useEffect, useReducer } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import config from "../../config"
 import DbService from "../../services/Db"
-import { featuringImage, measurements, Model } from "../../services/Db/models/model"
+import { measurements, Model } from "../../services/Db/models/model"
 import getThumbnail from "../../utils/models/getThumbnail"
 import modelReducer, { ModelPageState, modelReducerStates } from "./modelReducer"
 import AlbumList from "../AlbumList"
@@ -102,11 +102,7 @@ export default function ModelPage() {
                     return
                 }
 
-                let payload: featuringImage = {
-                    imageId: image._id,
-                    imageUrl: image.url,
-                }
-
+                let payload = image._id
                 dispatch({ type: modelReducerStates.FeaturingImageChange, payload })
             })
     }

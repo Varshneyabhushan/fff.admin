@@ -1,12 +1,11 @@
 import { useLocation, useParams } from "react-router-dom"
 import Album, { AlbumImage } from "../../services/Db/models/album"
-import { featuringImage } from "../../services/Db/models/model"
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { getImageUrl } from "../../utils/models/getThumbnail";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IconButton, Menu, MenuItem } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DbService from "../../services/Db";
 import config from "../../config";
 
@@ -26,11 +25,8 @@ export default function AlbumPage() {
 
     const album = location.state.album as Album
 
-    function setAsModelPic(imageId: string, imageUrl: string) {
-        let featuringImages: featuringImage[] = [
-            { imageId, imageUrl }
-        ]
-        dbService.updateModel({ _id: modelId, featuringImages })
+    function setAsModelPic(imageId: string) {
+        dbService.updateModel({ _id: modelId, featuringImages : [imageId] })
             .then(() => alert("updated the model"))
             .catch((e) => {
                 console.log(e)
@@ -64,7 +60,7 @@ export default function AlbumPage() {
 
 interface ImageContainerProps {
     image: AlbumImage;
-    setAsModelPic: (imageId: string, imageUrl: string) => void;
+    setAsModelPic: (imageId: string) => void;
     setAsAlbumPic: (imageId: string) => void;
 }
 
@@ -115,7 +111,7 @@ function ImageContainer({ image, setAsModelPic, setAsAlbumPic }: ImageContainerP
                     set as album pic
                 </MenuItem>
                 <MenuItem onClick={() => {
-                    setAsModelPic(image.id, image.url)
+                    setAsModelPic(image.id)
                     handleClose()
                 }}>
                     set as model pic

@@ -5,15 +5,9 @@ export interface measurements {
    height?: number;
 }
 
-export interface featuringImage {
-   imageId: string;
-   imageUrl: string;
-}
-
 export interface siteAlias {
    siteId: string;
    siteName?: string;
-   featuringImage?: featuringImage;
    alias: string;
    sources: string[];
 }
@@ -21,7 +15,7 @@ export interface siteAlias {
 export interface Model {
    _id: string;
    name: string;
-   featuringImages?: featuringImage[];
+   featuringImages?: string[];
    bio?: string;
    measurements?: measurements;
    dob?: Date;

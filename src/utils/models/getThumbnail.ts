@@ -1,9 +1,8 @@
 import config from "../../config"
-import { featuringImage } from "../../services/Db/models/model"
 
 
-export default function getThumbnail(featuringImages?: featuringImage[]): string {
-    let imageUrl = featuringImages?.[0]?.imageUrl ?? ""
+export default function getThumbnail(featuringImages?: string[]): string {
+    let imageUrl = featuringImages?.[0] ?? ""
     return getImageUrl(imageUrl)
 }
 
