@@ -14,6 +14,7 @@ import Resource from "../../utils/resource/Resource";
 import toResource from "../../utils/resource/toResource";
 import AlbumActions from "./AlbumActions";
 import useModel from "../../hooks/pages/useModel";
+import useAlbumCount from "../../hooks/pages/useAlbumCount";
 
 export type AlbumsResource = Resource<Album[]>
 
@@ -22,21 +23,12 @@ const dbService = new DbService(config.dbAPIUrl)
 
 export default function AlbumListPage() {
 
-    const [resource, setResource] = useState<Resource<Album[]>>()
-    const [countResource, setCountResource] = useState<Resource<number>>()
-
-    const totalPages = Math.ceil((countResource?.read() ?? 0) / AlbumsPerPage)
-
     const model = useModel()
+    const albumCountResource = useAlbumCount(model)
+    const [resource, setResource] = useState<Resource<Album[]>>()
+    
 
-    useEffect(() => {
-        if(!model) {
-            return
-        }
-
-        setCountResource(toResource(dbService.getAlbumsCount(model._id)))
-    },
-        [model, setCountResource])
+    const totalPages = Math.ceil((albumCountResource?.read() ?? 0) / AlbumsPerPage)
 
     const pageChange = useCallback((newPage : number) => {
         if (!model) {
@@ -50,15 +42,15 @@ export default function AlbumListPage() {
     [model, setResource])
 
     useEffect(() => {
-        if (!countResource) {
+        if (!albumCountResource) {
             return
         }
 
-        if (countResource.read() !== 0) {
+        if (albumCountResource.read() !== 0) {
             pageChange(1)
         }
     },
-        [countResource, pageChange])
+        [albumCountResource, pageChange])
 
     if (!model) {
         return <div> loading... </div>
@@ -72,7 +64,7 @@ export default function AlbumListPage() {
                     <Pagination
                         pageChange={pageChange}
                         totalPages={totalPages}
-                        totalItems={countResource?.read() ?? 0} />
+                        totalItems={albumCountResource?.read() ?? 0} />
                 </Suspense>
             </ErrorBoundary>
             <ErrorBoundary fallback={"error while loading albums"}>
