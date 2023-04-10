@@ -1,23 +1,16 @@
-import { useEffect, useState } from "react"
+
 import config from "../config"
 
-export default function Image({ imageId, alt }: { imageId: string, alt ?: string }) {
-
-    const [url, setUrl] = useState("./nofems_400.svg")
-
-    useEffect(() => {
-        //default
-        if (imageId.length === 0) {
-            return
-        }
-
-        setUrl(encodeURI(`${config.imageHostAPIUrl}/images/${imageId}`))
-    },
-        [imageId, setUrl])
+export default function Image({ imageId, alt }: { imageId: string, alt?: string }) {
+    let src = "./nofems_400.svg"
+    if (imageId.length !== 0) {
+        let result = `${config.imageHostAPIUrl}/images/${imageId}`
+        src = encodeURI(result)
+    }
 
     return (
         <img
-            src={url}
+            src={src}
             alt={alt ?? imageId}
             loading="lazy"
         />
