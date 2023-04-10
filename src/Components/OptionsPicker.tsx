@@ -49,7 +49,7 @@ export default function OptionsPicker({ options, pick }: OptionsPickerProps) {
                 {
                     options.map(
                         (option, index) =>
-                            <MenuItem onClick={() => {
+                            <MenuItem key={index} onClick={() => {
                                 pick(index)
                                 handleClose()
                             }}>

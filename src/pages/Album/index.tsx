@@ -46,7 +46,7 @@ export default function AlbumPage() {
         <div>
             <ImageList sx={{ width: "100%", height: "maxHeight" }} cols={5} rowHeight={200}>
                 {album.imageIds?.map((imageId) =>
-                    <ImageListItem>
+                    <ImageListItem key={imageId}>
                         <OptionsPicker
                             options={["set as album pic", "set as model pic"]}
                             pick={(index) => {
