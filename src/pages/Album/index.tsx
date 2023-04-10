@@ -1,28 +1,26 @@
-import { useLocation, useParams } from "react-router-dom"
-import Album from "../../services/Db/models/album"
+
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { getImageUrl } from "../../utils/models/getThumbnail";
-import { ReactNode } from "react";
 import DbService from "../../services/Db";
 import config from "../../config";
 import OptionsPicker from "../../Components/OptionsPicker";
+import useAlbum from "./useAlbum";
+import { useModelId } from "../ModelProfile/useModel";
 
 const dbService = new DbService(config.dbAPIUrl)
 
 export default function AlbumPage() {
 
-    const location = useLocation()
-    const { modelId } = useParams()
+    const modelId = useModelId()
+    const album = useAlbum()
 
-    if (!location.state?.album) {
+    if (!album) {
         //implement loading
         return (
             <div>loading...</div>
         )
     }
-
-    const album = location.state.album as Album
 
     function setAsModelPic(imageId: string) {
         dbService.updateModel({ _id: modelId, featuringImages: [imageId] })
@@ -34,6 +32,7 @@ export default function AlbumPage() {
     }
 
     function setAsAlbumPic(imageId: string) {
+        if(!album) return
         let featuringImages = [imageId]
         dbService.updateAlbum(album._id, { featuringImages } as any)
             .then(() => alert("updated the album"))

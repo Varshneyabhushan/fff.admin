@@ -9,12 +9,16 @@ import { Model } from "../../services/Db/models/model";
 
 const dbService = new DbService(config.dbAPIUrl)
 
+export function useModelId() {
+    const { modelId = "" } = useParams()
+    return modelId
+}
+
 //use model in location.state
 //if not exist query for the model and send
 export default function useModel() {
     const location = useLocation()
-    const { modelId = "" } = useParams()
-
+    const modelId = useModelId()
     const [model, setModel] = useState <Model>()
 
     useEffect(() => {
