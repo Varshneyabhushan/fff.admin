@@ -12,8 +12,8 @@ import Resource from "../../utils/resource/Resource"
 import toResource from "../../utils/resource/toResource"
 import Pagination from "../../Components/Pagination"
 import ModelActions from "./Actions"
-import getThumbnail from "../../utils/models/getThumbnail"
 import useModels from "../../hooks/pages/useModels";
+import FeaturingImages from "../../Components/FeaturingImages";
 
 const dbService = new DbService(config.dbAPIUrl)
 const ModelsPerPage = 20
@@ -56,7 +56,7 @@ function ModelContainer({ source }: { source: Model }) {
                 model: source,
             }}
         >
-            <img alt={source.name} src={getThumbnail(source.featuringImages)} />
+            <FeaturingImages imageIds={source.featuringImages} alt={source.name} />
             <div className="title">{source.name}</div>
         </Link>
     )

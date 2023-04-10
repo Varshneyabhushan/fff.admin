@@ -1,12 +1,12 @@
 
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { getImageUrl } from "../../utils/models/getThumbnail";
 import DbService from "../../services/Db";
 import config from "../../config";
 import OptionsPicker from "../../Components/OptionsPicker";
 import useAlbum from "../../hooks/pages/useAlbum";
 import useModelId from "../../hooks/pages/useModelId";
+import Image from '../../Components/Image';
 
 const dbService = new DbService(config.dbAPIUrl)
 
@@ -67,4 +67,14 @@ export default function AlbumPage() {
             </ImageList>
         </div>
     )
+}
+
+function getImageUrl(url : string) : string {
+    //default
+    if(url.length === 0) {
+        return "/nofems_400.svg"
+    }
+
+    let result = `${config.imageHostAPIUrl}/images/${url}`
+    return encodeURI(result)
 }

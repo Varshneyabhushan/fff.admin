@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import config from "../config"
 
-export default function Image({ imageId }: { imageId: string }) {
+export default function Image({ imageId, alt }: { imageId: string, alt ?: string }) {
 
     const [url, setUrl] = useState("./nofems_400.svg")
 
@@ -18,7 +18,7 @@ export default function Image({ imageId }: { imageId: string }) {
     return (
         <img
             src={url}
-            alt={imageId}
+            alt={alt ?? imageId}
             loading="lazy"
         />
     )

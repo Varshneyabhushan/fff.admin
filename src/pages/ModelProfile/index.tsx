@@ -8,10 +8,10 @@ import { useLocation, useNavigate } from "react-router-dom"
 import config from "../../config"
 import DbService from "../../services/Db"
 import { measurements, Model } from "../../services/Db/models/model"
-import getThumbnail from "../../utils/models/getThumbnail"
 import modelReducer, { ModelPageState, modelReducerStates } from "./modelReducer"
 import AlbumList from "../AlbumList"
 import useModel from "../../hooks/pages/useModel"
+import FeaturingImages from "../../Components/FeaturingImages"
 
 const StyledTextField = styled(TextField)({
     padding: 8,
@@ -111,7 +111,7 @@ export default function ModelPage() {
         <div>
             <div className="modelInfo">
                 <div className="preview">
-                    <img alt={state.model.name} src={getThumbnail(state.model.featuringImages)} /> <br />
+                    <FeaturingImages imageIds={state.model.featuringImages} alt={state.model.name}/> <br />
                     {
                         state.isEditing ?
                             (

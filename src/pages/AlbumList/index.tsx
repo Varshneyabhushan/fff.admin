@@ -1,7 +1,6 @@
 import "./index.scss"
 
 import { Suspense, useEffect } from "react";
-import { getImageUrl } from "../../utils/models/getThumbnail";
 
 import { Link } from "react-router-dom";
 import Pagination from "../../Components/Pagination";
@@ -12,6 +11,7 @@ import AlbumActions from "./AlbumActions";
 import useModel from "../../hooks/pages/useModel";
 import useAlbumCount from "../../hooks/pages/useAlbumCount";
 import useAlbums from "../../hooks/pages/useAlbums";
+import FeaturingImages from "../../Components/FeaturingImages";
 
 const AlbumsPerPage = 20
 
@@ -67,13 +67,10 @@ export default function AlbumListPage() {
 }
 
 function AlbumContainer({ album, model }: { album: Album, model: Model }) {
-
-    let featuringImage = getImageUrl(album.featuringImages?.[0] ?? album.imageIds?.[0] ?? "")
-
     return (
         <Link to={`/models/${model._id}/albums/${album._id}`} state={{ album }}>
             <div className="albumContainer">
-                <img alt={model.name} src={featuringImage} />
+                <FeaturingImages imageIds={album.featuringImages ?? album.imageIds} alt={album.name}/>
                 <div className="title">{album.name}</div>
             </div>
         </Link>
