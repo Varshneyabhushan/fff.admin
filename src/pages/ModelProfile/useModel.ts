@@ -15,7 +15,7 @@ export default function useModel() {
     const location = useLocation()
     const { modelId = "" } = useParams()
 
-    const [model, setModel] = useState <Model | undefined>()
+    const [model, setModel] = useState <Model>()
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
