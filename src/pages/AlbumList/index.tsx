@@ -27,16 +27,16 @@ export default function AlbumListPage() {
 
     const totalPages = Math.ceil((countResource?.read() ?? 0) / AlbumsPerPage)
 
-    const [model, isModelLoading] = useModel()
+    const model = useModel()
 
     useEffect(() => {
-        if(isModelLoading) {
+        if(!model) {
             return
         }
 
         setCountResource(toResource(dbService.getAlbumsCount(model._id)))
     },
-        [isModelLoading, model, setCountResource])
+        [model, setCountResource])
 
     useEffect(() => {
         if (!countResource) {
@@ -49,7 +49,7 @@ export default function AlbumListPage() {
     },
         [countResource])
 
-    if (isModelLoading) {
+    if (!model) {
         return <div> loading... </div>
     }
 

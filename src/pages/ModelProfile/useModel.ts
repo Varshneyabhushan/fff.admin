@@ -16,12 +16,10 @@ export default function useModel() {
     const { modelId = "" } = useParams()
 
     const [model, setModel] = useState <Model>()
-    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         if(location.state?.model) {
             setModel(location.state.model)
-            setLoading(false)
             return
         }
 
@@ -29,9 +27,8 @@ export default function useModel() {
             .then(
                 model => setModel(model)
             )
-            .finally(() => setLoading(false))
     },
-    [location.state, modelId, setLoading])
+    [location.state, modelId])
 
-    return [model, loading] as [Model, boolean]
+    return model
 }

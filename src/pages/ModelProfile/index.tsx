@@ -27,17 +27,17 @@ export default function ModelPage() {
 
     const location = useLocation()
     const [state, dispatch] = useReducer(modelReducer, defaultState)
-    const [model, isModelLoading] = useModel()
+    const model = useModel()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(isModelLoading) {
+        if(!model) {
             return
         }
 
         dispatch({ type: modelReducerStates.Setup, payload: model })
     },
-    [model, isModelLoading, dispatch])
+    [model, dispatch])
 
     if (!state.model) {
         return <></>
