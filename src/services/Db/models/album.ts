@@ -4,7 +4,7 @@ export default interface Album {
    originalUrl?: string;
    siteId: string;
    modelIds: string[];
-   images?: string[];
+   imageIds?: string[];
    featuringImages?: string[];
 }
 

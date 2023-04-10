@@ -47,7 +47,7 @@ export default function AlbumPage() {
     return (
         <div>
             <ImageList sx={{ width: "100%", height: "maxHeight" }} cols={5} rowHeight={200}>
-                {album.images?.map((imageId) => <ImageContainer
+                {album.imageIds?.map((imageId) => <ImageContainer
                     key={imageId}
                     imageId={imageId}
                     setAsAlbumPic={setAsAlbumPic}
