@@ -3,11 +3,10 @@ import Album from "../../services/Db/models/album"
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { getImageUrl } from "../../utils/models/getThumbnail";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { IconButton, Menu, MenuItem } from "@mui/material";
-import { useState } from "react";
+import { ReactNode } from "react";
 import DbService from "../../services/Db";
 import config from "../../config";
+import OptionsPicker from "../../Components/OptionsPicker";
 
 const dbService = new DbService(config.dbAPIUrl)
 
@@ -26,7 +25,7 @@ export default function AlbumPage() {
     const album = location.state.album as Album
 
     function setAsModelPic(imageId: string) {
-        dbService.updateModel({ _id: modelId, featuringImages : [imageId] })
+        dbService.updateModel({ _id: modelId, featuringImages: [imageId] })
             .then(() => alert("updated the model"))
             .catch((e) => {
                 console.log(e)
@@ -47,81 +46,26 @@ export default function AlbumPage() {
     return (
         <div>
             <ImageList sx={{ width: "100%", height: "maxHeight" }} cols={5} rowHeight={200}>
-                {album.imageIds?.map((imageId) => <ImageContainer
-                    key={imageId}
-                    imageId={imageId}
-                    setAsAlbumPic={setAsAlbumPic}
-                    setAsModelPic={setAsModelPic}
-                />) ?? ""}
+                {album.imageIds?.map((imageId) =>
+                    <ImageListItem>
+                        <OptionsPicker
+                            options={["set as album pic", "set as model pic"]}
+                            pick={(index) => {
+                                if (index === 0) {
+                                    setAsAlbumPic(imageId)
+                                    return
+                                }
+
+                                setAsModelPic(imageId)
+                            }}
+                        />
+                        <img
+                            src={getImageUrl(imageId)}
+                            loading="lazy"
+                            alt={imageId}
+                        />
+                    </ImageListItem>) ?? ""}
             </ImageList>
         </div>
-    )
-}
-
-interface ImageContainerProps {
-    imageId: string;
-    setAsModelPic: (imageId: string) => void;
-    setAsAlbumPic: (imageId: string) => void;
-}
-
-function ImageContainer({ imageId, setAsModelPic, setAsAlbumPic }: ImageContainerProps) {
-
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-
-    return (
-        <ImageListItem key={imageId}>
-            <IconButton
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? 'long-menu' : undefined}
-                aria-expanded={open ? 'true' : undefined}
-                aria-haspopup="true"
-                sx={{ padding: 1, position: 'absolute', right: 0 }}
-                onClick={handleClick}
-            >
-                <MoreVertIcon />
-            </IconButton>
-            <Menu
-                id="long-menu"
-                MenuListProps={{
-                    'aria-labelledby': 'long-button',
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                    style: {
-                        maxHeight: 20 * 4.5,
-                        width: '15ch',
-                    },
-                }}
-            >
-                <MenuItem onClick={() => {
-                    setAsAlbumPic(imageId)
-                    handleClose()
-                }}>
-                    set as album pic
-                </MenuItem>
-                <MenuItem onClick={() => {
-                    setAsModelPic(imageId)
-                    handleClose()
-                }}>
-                    set as model pic
-                </MenuItem>
-            </Menu>
-            <img
-                src={getImageUrl(imageId)}
-                alt={imageId}
-                loading="lazy"
-            />
-        </ImageListItem>
     )
 }
