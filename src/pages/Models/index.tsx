@@ -1,7 +1,7 @@
 
 import "./index.scss"
 
-import { Fragment, Suspense } from "react"
+import { Fragment, Suspense, useEffect } from "react"
 import { Link } from "react-router-dom";
 
 import config from "../../config"
@@ -36,7 +36,7 @@ export function ModelListPage() {
             <ErrorBoundary fallback={"error while loading models"}>
                 <Suspense fallback={"loading modelList"}>
                     <div className="modelList">
-                        {modelsResource.read()
+                        {modelsResource?.read()
                             .map(model => <ModelContainer key={model._id} source={model} />)
                         }
                     </div>

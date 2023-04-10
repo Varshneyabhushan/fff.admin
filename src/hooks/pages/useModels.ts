@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import config from "../../config";
 import DbService from "../../services/Db";
 import { Model } from "../../services/Db/models/model";
@@ -7,15 +7,19 @@ import toResource from "../../utils/resource/toResource";
 
 const dbService = new DbService(config.dbAPIUrl)
 
-export default function useModels(limit : number) : [Resource<Model[]>, (page : number) => void] {
-    const [modelsResource, setModelsResource] = useState(toResource(dbService.getModels(0, limit)))
+type useModelsResult = [Resource<Model[]> | undefined, (page: number) => void]
 
-    const loadPage = useCallback((page : number) => {
-        let skip = (page - 1)* limit
-        let newResource = toResource(dbService.getModels(skip, limit))
-        setModelsResource(newResource)
+export default function useModels(limit: number): useModelsResult {
+
+    const [modelsResource, setModelsResource] = useState<Resource<Model[]>>()
+
+    const setPage = useCallback((page: number) => {
+        let skip = (page - 1) * limit
+        setModelsResource(toResource(dbService.getModels(skip, limit)))
     },
-    [limit])
+        [setModelsResource, limit])
 
-    return [modelsResource, loadPage]
+    useEffect(() => setPage(1), [setPage])
+
+    return [modelsResource, setPage]
 }
