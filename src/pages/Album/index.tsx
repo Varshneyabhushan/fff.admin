@@ -32,7 +32,7 @@ export default function AlbumPage() {
     }
 
     function setAsAlbumPic(imageId: string) {
-        if(!album) return
+        if (!album) return
         let featuringImages = [imageId]
         dbService.updateAlbum(album._id, { featuringImages } as any)
             .then(() => alert("updated the album"))
@@ -58,23 +58,9 @@ export default function AlbumPage() {
                                 setAsModelPic(imageId)
                             }}
                         />
-                        <img
-                            src={getImageUrl(imageId)}
-                            loading="lazy"
-                            alt={imageId}
-                        />
+                        <Image imageId={imageId} className='MuiImageListItem-img'/>
                     </ImageListItem>) ?? ""}
             </ImageList>
         </div>
     )
-}
-
-function getImageUrl(url : string) : string {
-    //default
-    if(url.length === 0) {
-        return "/nofems_400.svg"
-    }
-
-    let result = `${config.imageHostAPIUrl}/images/${url}`
-    return encodeURI(result)
 }

@@ -1,7 +1,13 @@
 
 import config from "../config"
 
-export default function Image({ imageId, alt }: { imageId: string, alt?: string }) {
+interface ImageProps {
+    imageId: string;
+    alt?: string;
+    className?: string;
+}
+
+export default function Image({ imageId, alt, className }: ImageProps) {
     let src = "./nofems_400.svg"
     if (imageId.length !== 0) {
         let result = `${config.imageHostAPIUrl}/images/${imageId}`
@@ -13,6 +19,7 @@ export default function Image({ imageId, alt }: { imageId: string, alt?: string 
             src={src}
             alt={alt ?? imageId}
             loading="lazy"
+            className={className}
         />
     )
 }
