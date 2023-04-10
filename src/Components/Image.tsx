@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import config from "../config"
 
 export default function Image({ imageId }: { imageId: string }) {
