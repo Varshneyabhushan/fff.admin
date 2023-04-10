@@ -1,7 +1,7 @@
 
 import "./index.scss"
 
-import { Fragment, Suspense, useEffect } from "react"
+import { Fragment, Suspense } from "react"
 import { Link } from "react-router-dom";
 
 import config from "../../config"
