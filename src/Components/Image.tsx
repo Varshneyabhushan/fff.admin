@@ -8,7 +8,8 @@ interface ImageProps {
 }
 
 export default function Image({ imageId, alt, className }: ImageProps) {
-    let src = "./nofems_400.svg"
+    let src = "http://localhost:3000/nofems_400.svg"
+
     if (imageId.length !== 0) {
         let result = `${config.imageHostAPIUrl}/images/${imageId}`
         src = encodeURI(result)
