@@ -14,14 +14,12 @@ function App() {
     <div>
       <Routes>
         <Route path='/models' element={<Header />}>
-          <Route path='/models'>
-            <Route index element={<ModelListPageLoader />} />
-            <Route path=':modelId'>
-              <Route index element={<ModelPageLoader />} />
-              <Route path='albums'>
-                <Route index element={<AlbumListPage />} />
-                <Route path=':albumId' element={<AlbumPage />} />
-              </Route>
+          <Route index element={<ModelListPageLoader />} />
+          <Route path=':modelId'>
+            <Route index element={<ModelPageLoader />} />
+            <Route path='albums'>
+              <Route index element={<AlbumListPage />} />
+              <Route path=':albumId' element={<AlbumPage />} />
             </Route>
           </Route>
         </Route>
