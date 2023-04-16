@@ -24,7 +24,7 @@ export default async function addAlbumIfNotExist(
    let scrappedAlbum = await scrapperService.getAlbum(albumSuggestion.link);
    scrappedAlbum = mergeScrappedAlbum(albumSuggestion, scrappedAlbum);
 
-   scrappedAlbum.title = prompt('enter the name of the album', scrappedAlbum.title) ?? "new album"
+   scrappedAlbum.title ??= prompt('enter the name of the album', scrappedAlbum.title) ?? "new album"
 
    //empty albums are possible
    if (scrappedAlbum.images.length === 0) {
