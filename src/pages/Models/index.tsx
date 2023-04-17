@@ -1,7 +1,7 @@
 
 import "./index.scss"
 
-import { Fragment, Suspense } from "react"
+import { Fragment, Suspense, useEffect } from "react"
 import { Link } from "react-router-dom";
 
 import config from "../../config"
@@ -26,6 +26,11 @@ export function ModelListPage() {
 
     const totalModels = modelsCountResource.read()
     const totalPages = Math.ceil(totalModels / ModelsPerPage)
+
+    useEffect(() => {
+        loadPage(1)
+    },
+    [loadPage])
 
     return (
         <Fragment>

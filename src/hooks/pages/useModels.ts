@@ -19,7 +19,5 @@ export default function useModels(limit: number): useModelsResult {
     },
         [setModelsResource, limit])
 
-    useEffect(() => setPage(1), [setPage])
-
     return [modelsResource, setPage]
 }
