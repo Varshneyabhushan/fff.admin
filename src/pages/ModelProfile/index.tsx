@@ -3,7 +3,7 @@ import "./index.scss"
 
 import styled from "@emotion/styled"
 import { Button, TextField, Typography } from "@mui/material"
-import { ChangeEvent, useEffect, useReducer } from "react"
+import { ChangeEvent, useCallback, useEffect, useReducer } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import config from "../../config"
 import DbService from "../../services/Db"
@@ -38,10 +38,6 @@ export default function ModelPage() {
         dispatch({ type: modelReducerStates.Setup, payload: model })
     },
         [model, dispatch])
-
-    if (!state.model) {
-        return <></>
-    }
 
     async function onSave() {
         setIsEditing(false)
@@ -107,7 +103,7 @@ export default function ModelPage() {
             })
     }
 
-    function deleteModel() {
+    const deleteModel = useCallback(() => {
         if (!state.model) {
             return
         }
@@ -115,11 +111,17 @@ export default function ModelPage() {
         dbService.deleteModel(state.model._id)
             .then(result => {
                 alert(`deleted ${result.albumCount} albums and ${result.imageCount} images`)
+                navigate(-1)
             })
             .catch(e => {
                 alert("error while deleting")
                 console.log(e)
             })
+    },
+        [navigate, state])
+
+    if (!state.model) {
+        return <></>
     }
 
     return (
