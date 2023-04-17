@@ -31,13 +31,13 @@ export default function ModelPage() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(!model) {
+        if (!model) {
             return
         }
 
         dispatch({ type: modelReducerStates.Setup, payload: model })
     },
-    [model, dispatch])
+        [model, dispatch])
 
     if (!state.model) {
         return <></>
@@ -96,7 +96,7 @@ export default function ModelPage() {
             return
         }
 
-        dbService.getRandomImageOfModel(state.model?._id)
+        dbService.getRandomImageOfModel(state.model._id)
             .then(image => {
                 if (!image) {
                     return
@@ -107,11 +107,26 @@ export default function ModelPage() {
             })
     }
 
+    function deleteModel() {
+        if (!state.model) {
+            return
+        }
+
+        dbService.deleteModel(state.model._id)
+            .then(result => {
+                alert(`deleted ${result.albumCount} albums and ${result.imageCount} images`)
+            })
+            .catch(e => {
+                alert("error while deleting")
+                console.log(e)
+            })
+    }
+
     return (
         <div>
             <div className="modelInfo">
                 <div className="preview">
-                    <FeaturingImages imageIds={state.model.featuringImages} alt={state.model.name}/> <br />
+                    <FeaturingImages imageIds={state.model.featuringImages} alt={state.model.name} /> <br />
                     {
                         state.isEditing ?
                             (
@@ -121,8 +136,12 @@ export default function ModelPage() {
                                     <Button onClick={() => setIsEditing(false)}> Cancel</Button>
                                 </>
 
-                            ) :
-                            <Button onClick={() => setIsEditing(true)}> edit </Button>
+                            ) : (
+                                <>
+                                    <Button onClick={() => setIsEditing(true)}> edit </Button>
+                                    <Button onClick={() => deleteModel()}> delete </Button>
+                                </>
+                            )
                     }
 
                 </div>
@@ -203,7 +222,7 @@ export default function ModelPage() {
                 </div>
             </div>
 
-            <div style={{ display: "flex", justifyContent : "center" }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
                 <Typography variant="h4"> Albums </Typography>
             </div>
             <AlbumList />

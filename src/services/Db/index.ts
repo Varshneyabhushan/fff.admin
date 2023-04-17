@@ -121,6 +121,13 @@ export default class DbService {
       });
    }
 
+   deleteModel(id : string) : Promise<{ albumCount : number, imageCount : number }> {
+      return this.axios({
+         method : "delete",
+         url : `/admin/models/${id}`,
+      })
+   }
+
    //albums
    getAlbumById(albumId: string): Promise<Album> {
       return this.axios({ url: `/admin/albums/${albumId}` }).then((data) => data.album);
