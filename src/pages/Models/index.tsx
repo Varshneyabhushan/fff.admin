@@ -2,7 +2,7 @@
 import "./index.scss"
 
 import { Fragment, Suspense, useEffect } from "react"
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import config from "../../config"
 import DbService from "../../services/Db"
