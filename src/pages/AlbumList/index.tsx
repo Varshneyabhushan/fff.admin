@@ -1,8 +1,8 @@
 import "./index.scss"
 
-import { Suspense, useEffect } from "react";
+import { Suspense, useCallback, useEffect } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../../Components/Pagination";
 import Album from "../../services/Db/models/album";
 import { Model } from "../../services/Db/models/model";
@@ -12,6 +12,7 @@ import useModel from "../../hooks/pages/useModel";
 import useAlbumCount from "../../hooks/pages/useAlbumCount";
 import useAlbums from "../../hooks/pages/useAlbums";
 import FeaturingImages from "../../Components/FeaturingImages";
+import usePageNumber from "../../hooks/usePageNumber";
 
 const AlbumsPerPage = 20
 
@@ -24,14 +25,16 @@ export default function AlbumListPage() {
 
     const totalPages = Math.ceil((albumCountResource?.read() ?? 0) / AlbumsPerPage)
 
+    const [pageNumber, setPageNumber] = usePageNumber(1)
+
     useEffect(() => {
         if (!albumCountResource || albumCountResource.read() === 0) {
             return
         }
 
-        pageChange(1)
+        pageChange(pageNumber)
     },
-        [albumCountResource, pageChange])
+        [albumCountResource, pageChange, pageNumber])
 
     if (!model) {
         return <div> loading... </div>
@@ -43,7 +46,8 @@ export default function AlbumListPage() {
             <ErrorBoundary fallback={"error while loading pagination"}>
                 <Suspense>
                     <Pagination
-                        pageChange={pageChange}
+                        page={pageNumber}
+                        pageChange={setPageNumber}
                         totalPages={totalPages}
                         totalItems={albumCountResource?.read() ?? 0} />
                 </Suspense>
@@ -70,7 +74,7 @@ function AlbumContainer({ album, model }: { album: Album, model: Model }) {
     return (
         <Link to={`/models/${model._id}/albums/${album._id}`} state={{ album }}>
             <div className="albumContainer">
-                <FeaturingImages imageIds={album.featuringImages ?? album.imageIds} alt={album.name}/>
+                <FeaturingImages imageIds={album.featuringImages ?? album.imageIds} alt={album.name} />
                 <div className="title">{album.name}</div>
             </div>
         </Link>

@@ -2,7 +2,7 @@
 import "./index.scss"
 
 import { Fragment, Suspense, useEffect } from "react"
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import config from "../../config"
 import DbService from "../../services/Db"
@@ -14,6 +14,7 @@ import Pagination from "../../Components/Pagination"
 import ModelActions from "./Actions"
 import useModels from "../../hooks/pages/useModels";
 import FeaturingImages from "../../Components/FeaturingImages";
+import usePageNumber from "../../hooks/usePageNumber";
 
 const dbService = new DbService(config.dbAPIUrl)
 const ModelsPerPage = 20
@@ -27,16 +28,22 @@ export function ModelListPage() {
     const totalModels = modelsCountResource.read()
     const totalPages = Math.ceil(totalModels / ModelsPerPage)
 
+    const [pageNumber, setPageNumber] = usePageNumber(1)
     useEffect(() => {
-        loadPage(1)
+        loadPage(pageNumber)
     },
-    [loadPage])
+    [pageNumber, loadPage])
 
     return (
         <Fragment>
             <ErrorBoundary fallback={"error while loading pagination"}>
                 <ModelActions />
-                <Pagination pageChange={loadPage} totalPages={totalPages} totalItems={totalModels} />
+                <Pagination
+                    page={pageNumber}
+                    pageChange={setPageNumber}
+                    totalPages={totalPages}
+                    totalItems={totalModels}
+                />
             </ErrorBoundary>
             <ErrorBoundary fallback={"error while loading models"}>
                 <Suspense fallback={"loading modelList"}>
