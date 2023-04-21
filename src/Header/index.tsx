@@ -50,11 +50,11 @@ function QueueStatus() {
 
   useEffect(() => {
     refreshStatus()
-    let timeout = setTimeout(() => {
+    let timeout = setInterval(() => {
       refreshStatus()
     }, refreshTime);
 
-    return () => clearTimeout(timeout)
+    return () => clearInterval(timeout)
   },
     [refreshStatus])
 
