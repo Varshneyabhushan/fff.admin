@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import config from "../config"
 
 interface ImageProps {
@@ -8,12 +9,13 @@ interface ImageProps {
 }
 
 export default function Image({ imageId, alt, className }: ImageProps) {
-    let src = "http://localhost:3000/nofems_400.svg"
-
+    let initialSrc = "http://localhost:3000/nofems_400.svg"
     if (imageId.length !== 0) {
         let result = `${config.imageHostAPIUrl}/images/${imageId}`
-        src = encodeURI(result)
+        initialSrc = encodeURI(result)
     }
+
+    const [src, setSrc] = useState(initialSrc)
 
     return (
         <img
@@ -21,6 +23,7 @@ export default function Image({ imageId, alt, className }: ImageProps) {
             alt={alt ?? imageId}
             loading="lazy"
             className={className}
+            onError={() => setSrc("http://localhost:3000/nofems_400.svg")}
         />
     )
 }
