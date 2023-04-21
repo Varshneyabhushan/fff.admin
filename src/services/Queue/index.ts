@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export interface QueueItem {
+   id: string;
    url: string;
+   title : string;
    path: string;
 }
 

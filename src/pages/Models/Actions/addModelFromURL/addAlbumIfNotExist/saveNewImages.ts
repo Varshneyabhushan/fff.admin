@@ -13,22 +13,21 @@ export default async function saveNewImages(
    scrappedImages: ScrappedImage[],
 ) {
 
-   let queueItems: QueueItem[] = [];
-   let imageUrls: string[] = [];
-   for (let image of scrappedImages) {
-      let queueItem = makeQueueItem(model, album, image);
-      imageUrls.push(queueItem.path);
-      queueItems.push(queueItem);
-   }
-
-   let imageIds = await dbService.addImages(imageUrls, model._id, album.siteId);
+   let imageIds = await dbService.addImages(model._id, album.siteId, scrappedImages.length);
+   let queueItems = scrappedImages.map((image, i) => 
+      makeQueueItem(imageIds[i], model, album, image))
 
    let success = await queueService.addQueueItems(queueItems);
    await dbService.addImagesToAlbum(album._id, imageIds);
    return { totalImages: scrappedImages.length, adding: imageIds.length, success };
 }
 
-export function makeQueueItem(model: Model, album: Album, scrappedImage: ScrappedImage): QueueItem {
+export function makeQueueItem(
+   id: string,
+   model: Model,
+   album: Album,
+   scrappedImage: ScrappedImage,
+): QueueItem {
    let modelTitle = model.name.length === 0 ? "a model" : model.name;
    let albumTitle = album.name.length === 0 ? "an album" : album.name;
    let title = !scrappedImage.title?.length
@@ -36,7 +35,9 @@ export function makeQueueItem(model: Model, album: Album, scrappedImage: Scrappe
       : scrappedImage.title;
 
    return {
-      path: `${modelTitle}/${albumTitle}/${title}`,
+      id,
+      path: `${modelTitle}/${albumTitle}`,
+      title,
       url: scrappedImage.url,
    };
 }

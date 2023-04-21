@@ -182,11 +182,11 @@ export default class DbService {
    }
 
    //images
-   addImages(imageUrls: string[], modelId: string, siteId: string): Promise<string[]> {
+   addImages(modelId: string, siteId: string, count : number): Promise<string[]> {
       return this.axios({
          method: "post",
          url: `/admin/images?modelId=${modelId}&siteId=${siteId}`,
-         data: { imageUrls },
+         data: { count },
       }).then((data) => data.value);
    }
 
