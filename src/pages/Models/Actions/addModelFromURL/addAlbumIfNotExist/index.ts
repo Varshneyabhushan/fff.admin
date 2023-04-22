@@ -9,6 +9,9 @@ import mergeScrappedAlbum from "../../../../../services/Scrapper/utils/mergeScra
 import createAlbumIfNotExist from "./createAlbumIfNotExist";
 import saveNewImages from "./saveNewImages";
 
+function isInvalidTitle(title ?: string) {
+   return !title || title.length === 0 || title.length > 75
+}
 
 export default async function addAlbumIfNotExist(
    model: Model,
@@ -24,7 +27,9 @@ export default async function addAlbumIfNotExist(
    let scrappedAlbum = await scrapperService.getAlbum(albumSuggestion.link);
    scrappedAlbum = mergeScrappedAlbum(albumSuggestion, scrappedAlbum);
 
-   scrappedAlbum.title ??= prompt('enter the name of the album', scrappedAlbum.title) ?? "new album"
+   if(isInvalidTitle(scrappedAlbum.title)) {
+      scrappedAlbum.title = prompt('enter the name of the album', scrappedAlbum.title) ?? "new album"
+   }
 
    //empty albums are possible
    if (scrappedAlbum.images.length === 0) {
