@@ -58,5 +58,5 @@ export default async function addAlbumIfNotExist(
       scrappedAlbum.images,
    );
    
-   alert(`totalImages : ${totalImages}, adding : ${adding}, success : ${success}`);
+   console.log(`totalImages : ${totalImages}, adding : ${adding}, success : ${success}`);
 }
