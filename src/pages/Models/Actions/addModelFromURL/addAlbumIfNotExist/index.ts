@@ -9,7 +9,7 @@ import mergeScrappedAlbum from "../../../../../services/Scrapper/utils/mergeScra
 import createAlbumIfNotExist from "./createAlbumIfNotExist";
 import saveNewImages from "./saveNewImages";
 
-function isInvalidTitle(title ?: string) {
+function isInvalidTitle(title?: string) {
    return !title || title.length === 0 || title.length > 75
 }
 
@@ -27,7 +27,7 @@ export default async function addAlbumIfNotExist(
    let scrappedAlbum = await scrapperService.getAlbum(albumSuggestion.link);
    scrappedAlbum = mergeScrappedAlbum(albumSuggestion, scrappedAlbum);
 
-   if(isInvalidTitle(scrappedAlbum.title)) {
+   if (isInvalidTitle(scrappedAlbum.title)) {
       scrappedAlbum.title = prompt('enter the name of the album', scrappedAlbum.title) ?? "new album"
    }
 
@@ -50,13 +50,12 @@ export default async function addAlbumIfNotExist(
    let album = await createAlbumIfNotExist(dbService, scrappedAlbum, getAlbumId, model._id, siteId);
 
    //save those images to db (images and albums) and add to queue
-   let { success, totalImages, adding } = await saveNewImages(
+   return await saveNewImages(
       dbService,
       queueService,
       model,
       album,
       scrappedAlbum.images,
    );
-   
-   console.log(`totalImages : ${totalImages}, adding : ${adding}, success : ${success}`);
+
 }

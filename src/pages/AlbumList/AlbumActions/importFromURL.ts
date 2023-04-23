@@ -15,5 +15,12 @@ export default async function importFromURL(model : Model, url : string) {
 
     let { isAlbumSaturated, getAlbumId } = await makeAlbumMapByLink(dbService, model._id, [url])
     const ensureSiteAlias = makeEnsureSiteAlias(dbService, model, {} as ScrappedModel)
-    await addAlbumIfNotExist(model, albumSuggestion, isAlbumSaturated, getAlbumId, ensureSiteAlias)
+    const {
+        totalImages,
+        adding,
+        success
+    } =
+    await addAlbumIfNotExist(model, albumSuggestion, isAlbumSaturated, getAlbumId, ensureSiteAlias) || {}
+
+    alert(`totalImages : ${totalImages}, adding : ${adding}, success : ${success}`);
 }

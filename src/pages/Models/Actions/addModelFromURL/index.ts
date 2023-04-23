@@ -8,7 +8,7 @@ import makeAlbumMapByLink from "./addAlbumIfNotExist/makeAlbumMapByLink";
 import addAlbumIfNotExist from "./addAlbumIfNotExist";
 import config from "../../../../config";
 
-export default async function addModelFromURL(url : string) {
+export default async function addModelFromURL(url: string) {
 
    const dbService = new DbService(config.dbAPIUrl)
    const scrapperService = new ScrapperService(config.scrapperAPIUrl)
@@ -47,12 +47,18 @@ export default async function addModelFromURL(url : string) {
    );
 
    for (let albumSuggestion of scrappedModel.albums) {
-      await addAlbumIfNotExist(
+      let {
+         totalImages,
+         adding,
+         success
+      } = (await addAlbumIfNotExist(
          model,
          albumSuggestion,
          isAlbumSaturated,
          getAlbumId,
          ensureSiteAlias,
-      );
+      )) || { totalImages: 0, adding: 0, success: 0 }
+
+      console.log(`totalImages : ${totalImages}, adding : ${adding}, success : ${success}`);
    }
 }
