@@ -1,8 +1,8 @@
 import "./index.scss"
 
-import { Suspense, useCallback, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Pagination from "../../Components/Pagination";
 import Album from "../../services/Db/models/album";
 import { Model } from "../../services/Db/models/model";

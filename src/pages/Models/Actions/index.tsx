@@ -47,7 +47,7 @@ export default function ModelActions() {
     }
 
     return (
-        <div className="modelActions">
+        <div className="model-actions">
             <Button onClick={createNewModel}>new model </Button>
             <Button onClick={() => setOpen(true)}> import model </Button>
             <ImportURLFormDialog onSubmit={importModel} open={open} setOpen={setOpen}/>

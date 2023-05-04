@@ -47,7 +47,7 @@ export function ModelListPage() {
             </ErrorBoundary>
             <ErrorBoundary fallback={"error while loading models"}>
                 <Suspense fallback={"loading modelList"}>
-                    <div className="modelList">
+                    <div className="model-list">
                         {modelsResource?.read()
                             .map(model => <ModelContainer key={model._id} source={model} />)
                         }
@@ -62,7 +62,7 @@ export function ModelListPage() {
 function ModelContainer({ source }: { source: Model }) {
     return (
         <Link
-            className="modelContainer"
+            className="model-container"
             to={`/models/${source._id}`}
             state={{
                 model: source,

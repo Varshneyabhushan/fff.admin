@@ -22,7 +22,7 @@ export default function useAlbums(model: Model | undefined, albumsPerPage: numbe
         let newResource = toResource(dbService.getAlbumsOfModel(model._id, skip, albumsPerPage))
         setResource(newResource)
     },
-        [model, setResource])
+        [model, setResource, albumsPerPage])
 
     return [resource, pageChange]
 }

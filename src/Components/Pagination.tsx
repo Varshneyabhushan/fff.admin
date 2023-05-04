@@ -1,5 +1,4 @@
 import { Container, Pagination as PaginationMui, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
 
 interface PaginationProps {
     page: number,

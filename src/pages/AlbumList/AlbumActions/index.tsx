@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Model } from "../../../services/Db/models/model";
 import importFromURL from "./importFromURL";
 import ImportURLFormDialog from "./ImportURLForm";
