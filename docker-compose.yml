@@ -1,10 +1,12 @@
 version: '3'
 services:
-  nginx:
-    image: nginx:latest
+  admin-ui:
+    image: ff.admin.nginx
+    container_name: fff-admin-ui-server
+
+    build:
+        context: .
+        dockerfile: Dockerfile
+
     ports:
       - ${PORT}:80
-
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./build:/usr/share/nginx/html:ro
