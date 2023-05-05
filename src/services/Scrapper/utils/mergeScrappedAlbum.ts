@@ -14,7 +14,7 @@ export default function mergeScrappedAlbum(
       scrappedAlbum.id = albumSuggestion.id;
    }
 
-   if (scrappedAlbum.date?.toString() === new Date("dfd").toString()) {
+   if (!scrappedAlbum.date || scrappedAlbum.date.toString() === new Date("dfd").toString()) {
       scrappedAlbum.date = albumSuggestion.date;
    }
 

@@ -20,6 +20,7 @@ export default async function createAlbumIfNotExist(
       modelIds: [modelId],
       siteId,
       originalUrl: scrappedAlbum.link,
+      createdAt : scrappedAlbum.date
    };
 
    albumId = await dbService.addAlbum(creatingAlbum);

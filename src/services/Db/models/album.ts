@@ -6,5 +6,7 @@ export default interface Album {
    modelIds: string[];
    imageIds?: string[];
    featuringImages?: string[];
+   createdAt?: Date;
+   lastModifiedAt?: Date;
 }
 
